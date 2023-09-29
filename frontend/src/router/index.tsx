@@ -5,6 +5,7 @@ import UnauthorizedOnlyRoute from './UnauthorizedOnlyRoute';
 import AuthService from '../api/AuthService';
 import SignUp from '../pages/SignUp';
 import Login from '../pages/Login';
+import ProtectedRoute from './ProtectedRoute';
 
 export const router = createBrowserRouter([
     {
@@ -24,7 +25,11 @@ export const router = createBrowserRouter([
         ),
     },
     {
-        path: '/home',
-        element: <Home />,
+        path: '*',
+        element: (
+            <ProtectedRoute isSignedIn={false}>
+                <Home />
+            </ProtectedRoute>
+        ),
     },
 ]);
