@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 from sqlalchemy.orm import relationship, Mapped, mapped_column
-from db import BaseSqlModel
+from app.db import BaseSqlModel
 
 
 class User(BaseSqlModel):
@@ -13,6 +13,13 @@ class User(BaseSqlModel):
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
     is_superuser = Column(Boolean, default=False)
+
+    created_tickets = relationship(
+        "Ticket", back_populates="author", primaryjoin="User.id==Ticket.author_id"
+    )
+    taken_tickets = relationship(
+        "Ticket", back_populates="worker", primaryjoin="User.id==Ticket.worker_id"
+    )
 
 
 class UserCreate(BaseModel):
