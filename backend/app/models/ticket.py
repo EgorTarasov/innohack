@@ -18,8 +18,11 @@ class Ticket(BaseSqlModel):
         Integer, ForeignKey("users.id"), nullable=True
     )
     due_date: Mapped[datetime] = mapped_column(DateTime)
-    role_ids: Mapped[list[int]] = mapped_column(ARRAY(Integer))
+    role_id: Mapped[list[int]] = mapped_column(Integer, ForeignKey("roles.id"))
     level_id: Mapped[int] = mapped_column(Integer, ForeignKey("levels.id"))
+
+    role = relationship("Role")
+    level = relationship("Level")
 
     def __repr__(self):
         return f"<Ticket {self.title}>"

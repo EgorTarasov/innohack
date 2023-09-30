@@ -36,6 +36,7 @@ def update(db: Session, payload: models.TicketCreate) -> models.Ticket:
 def get(db: Session, id: int) -> models.Ticket:
 
     ticket = db.query(models.Ticket).filter(models.Ticket.id == id).one_or_none()
+
     if not ticket:
         logging.error(f"Ticket with id {id} not found")
         raise Exception(f"Ticket with id {id} not found")

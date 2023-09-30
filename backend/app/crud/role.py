@@ -33,17 +33,3 @@ def get(db: Session, _id: int) -> models.Role:
     if not db_role:
         raise Exception(f"Role with id {_id} not found")
     return db_role
-
-
-def get_list(db: Session, _ids: list[int]) -> list[models.Role]:
-    """Получение списка ролей
-
-    Args:
-        db (Session): _description_
-        _ids (list[int]): _description_
-
-    Returns:
-        list[models.Role]: _description_
-    """
-    db_roles = db.query(models.Role).filter(models.Role.id.in_(_ids)).all()
-    return db_roles

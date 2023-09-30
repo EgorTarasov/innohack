@@ -1,2 +1,22 @@
-INSERT INTO tickets(title, description, reporter_id) VALUES
-()
+INSERT INTO tickets (sprint_id, title, description, reporter_id, assignee_id, due_date, role_ids, level_id, created_at, updated_at)
+VALUES
+    (1, 'Ticket 1 Title', 'Ticket 1 Description', 20, 21, '2022-01-01', '{1, 2}', 1, now(), now()),
+    (2, 'Ticket 2 Title', 'Ticket 2 Description', 21, 22, '2022-01-02', '{3, 4}', 2, now(), now()),
+    (3, 'Ticket 3 Title', 'Ticket 3 Description', 22, 23, '2022-01-03', '{2, 5}', 3, now(), now()),
+    (4, 'Ticket 4 Title', 'Ticket 4 Description', 23, 20, '2022-01-04', '{1, 3}', 1, now(), now()),
+    (5, 'Ticket 5 Title', 'Ticket 5 Description', 20, 21, '2022-01-05', '{4, 5}', 2, now(), now()),
+    (1, 'Ticket 6 Title', 'Ticket 6 Description', 21, 22, '2022-01-06', '{1, 2}', 3, now(), now()),
+    (2, 'Ticket 7 Title', 'Ticket 7 Description', 22, 23, '2022-01-07', '{3, 4}', 1, now(), now()),
+    (3, 'Ticket 8 Title', 'Ticket 8 Description', 23, 20, '2022-01-08', '{2, 5}', 2, now(), now()),
+    (4, 'Ticket 9 Title', 'Ticket 9 Description', 20, 21, '2022-01-09', '{1, 3}', 3, now(), now()),
+    (5, 'Ticket 10 Title', 'Ticket 10 Description', 21, 22, '2022-01-10', '{4, 5}', 1, now(), now()),
+    (1, 'Ticket 11 Title', 'Ticket 11 Description', 22, 23, '2022-01-11', '{1, 2}', 2, now(), now()),
+    (2, 'Ticket 12 Title', 'Ticket 12 Description', 23, 20, '2022-01-12', '{3, 4}', 3, now(), now()),
+    (3, 'Ticket 13 Title', 'Ticket 13 Description', 20, 21, '2022-01-13', '{2, 5}', 1, now(), now()),
+    (4, 'Ticket 14 Title', 'Ticket 14 Description', 21, 22, '2022-01-14', '{1, 3}', 2, now(), now()),
+    (5, 'Ticket 15 Title', 'Ticket 15 Description', 22, 23, '2022-01-15', '{4, 5}', 3, now(), now()),
+    (1, 'Ticket 16 Title', 'Ticket 16 Description', 23, 20, '2022-01-16', '{1, 2}', 1, now(), now()),
+    (2, 'Ticket 17 Title', 'Ticket 17 Description', 20, 21, '2022-01-17', '{3, 4}', 2, now(), now()),
+    (3, 'Ticket 18 Title', 'Ticket 18 Description', 21, 22, '2022-01-18', '{2, 5}', 3, now(), now()),
+    (4, 'Ticket 19 Title', 'Ticket 19 Description', 22, 23, '2022-01-19', '{1, 3}', 1, now(), now()),
+    (5, 'Ticket 20 Title', 'Ticket 20 Description', 23, 20, '2022-01-20', '{4, 5}', 2, now(), now());
