@@ -1,2 +1,10 @@
+uvicorn
+fastapi
+python-multipart
+pydantic
+pydantic-settings
+python-dotenv
+sqlalchemy
+python-jose
+passlib
 psycopg2
--r base.txt

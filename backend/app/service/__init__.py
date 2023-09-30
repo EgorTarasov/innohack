@@ -1,1 +1,2 @@
-from user import *
+from . import user
+from . import mailing

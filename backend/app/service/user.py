@@ -4,13 +4,52 @@ from jose import JWTError, jwt
 
 
 from sqlalchemy.orm import Session
-from app import models
-from app import crud
-from app.config import config
+from .. import models, crud, utils
+
+from ..config import config
 import logging
 
 
-async def get_current_user(db: Session, cookie_token: str) -> models.User:
+def create(db: Session, user: models.UserCreate) -> models.Token:
+    """Создание пользователя
+
+    Args:
+        db (Session): сессия к бд
+        user (models.UserCreate): данные пользователя
+
+    Raises:
+        Exception: Нарушение уникальности полей
+
+    Returns:
+        str: токен для авторизации (access_token)
+    """
+
+    try:
+        user.password = utils.auth.get_password_hash(user.password)
+        crud.create_user(db, user)
+        return models.Token(
+            access_token=utils.auth.create_access_token(data={"sub": user.email}),
+            token_type="bearer",
+        )
+    except Exception as e:
+        logging.error(f"Error create user: {e}")
+        print(e)
+        raise Exception(f"Error create user: {e}")
+
+
+def authenticate(db: Session, payload: models.UserLogin) -> models.Token:
+    """Авторизация пользователя"""
+    user = crud.get_user_by_email(db, payload.email)
+    if utils.auth.verify_password(payload.password, user.hashed_password):
+        return models.Token(
+            access_token=utils.auth.create_access_token(data={"sub": user.email}),
+            token_type="bearer",
+        )
+    else:
+        raise Exception("Incorrect email or password")
+
+
+async def get_current_user(db: Session, cookie_token: str) -> models.UserDto:
     """ "Получение текущего пользователя"""
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -37,3 +76,8 @@ async def get_current_user(db: Session, cookie_token: str) -> models.User:
         logging.debug(f"User no found")
         raise credentials_exception
     return user
+
+
+async def get_by_email(db: Session, email: str) -> models.User:
+    """Получение пользователя по email"""
+    return crud.get_user_by_email(db, email)
