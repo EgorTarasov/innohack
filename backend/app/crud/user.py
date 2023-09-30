@@ -27,3 +27,8 @@ def get_user_by_email(db: Session, email: str) -> models.User:
 
     else:
         raise Exception("User not found")
+
+
+def get_all(db: Session) -> list[models.User]:
+    """Получение всех пользователей"""
+    return db.query(models.User).all()

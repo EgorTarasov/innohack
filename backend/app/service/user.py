@@ -26,7 +26,7 @@ def create(db: Session, user: models.UserCreate) -> models.Token:
 
     try:
         user.password = utils.auth.get_password_hash(user.password)
-        crud.create_user(db, user)
+        crud.user.create_user(db, user)
         return models.Token(
             access_token=utils.auth.create_access_token(data={"sub": user.email}),
             token_type="bearer",
@@ -39,7 +39,7 @@ def create(db: Session, user: models.UserCreate) -> models.Token:
 
 def authenticate(db: Session, payload: models.UserLogin) -> models.Token:
     """Авторизация пользователя"""
-    user = crud.get_user_by_email(db, payload.email)
+    user = crud.user.get_user_by_email(db, payload.email)
     if utils.auth.verify_password(payload.password, user.hashed_password):
         return models.Token(
             access_token=utils.auth.create_access_token(data={"sub": user.email}),
@@ -71,13 +71,18 @@ async def get_current_user(db: Session, cookie_token: str) -> models.UserDto:
     if not token_data.email:
         logging.debug(f"token_data.email is None")
         raise credentials_exception
-    user = crud.get_user_by_email(db, token_data.email)
+    user = crud.user.get_user_by_email(db, token_data.email)
     if user is None:
         logging.debug(f"User no found")
         raise credentials_exception
-    return user
+    return models.UserDto.model_validate(user)
 
 
 async def get_by_email(db: Session, email: str) -> models.User:
     """Получение пользователя по email"""
-    return crud.get_user_by_email(db, email)
+    return crud.user.get_user_by_email(db, email)
+
+
+def get_all(db: Session) -> list[models.UserDto]:
+    """Получение всех пользователей"""
+    return [models.UserDto.model_validate(user) for user in crud.user.get_all(db)]

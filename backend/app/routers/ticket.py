@@ -11,18 +11,18 @@
 """
 
 from fastapi import APIRouter, Depends, status, Response, Request, Body, HTTPException
-from app import models, service
+from app import models, service, schemas
 
 from sqlalchemy.orm import Session
 from app.dependencies import get_db, current_user
 
 
-router = APIRouter(prefix="", tags=["ticket"])
+router = APIRouter(prefix="/ticket", tags=["ticket"])
 
 
 @router.post(
-    "/ticket",
-    response_model=models.TicketCreate,
+    "/create",
+    response_model=schemas.TicketDto,
     status_code=status.HTTP_201_CREATED,
 )
 async def create_ticket(
@@ -35,9 +35,10 @@ async def create_ticket(
     """
     return service.ticket.create(db, ticket, user)
 
+
 @router.get(
-    "/ticket",
-    response_model=models.TicketDto,
+    "/all",
+    response_model=list[schemas.TicketDto],
     status_code=status.HTTP_200_OK,
 )
 async def get_ticket(
@@ -51,13 +52,50 @@ async def get_ticket(
     """
     return service.ticket.get_all(db, user)
 
+
 @router.get(
-    "/ticket/{ticket_id}/review"
+    "/{ticket_id}",
+    response_model=schemas.TicketDto,
+    status_code=status.HTTP_200_OK,
 )
-async def review(
+async def get_ticket_by_id(
     ticket_id: int,
     db: Session = Depends(get_db),
     user: models.User = Depends(current_user),
 ):
-    return service.ticket.review(db, ticket_id, user)
+    """
+    Get ticket by id.
+    """
+    try:
+        return service.ticket.get(db, ticket_id)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail="Ticket not found")
 
+
+@router.put(
+    "/{ticket_id}",
+    response_model=schemas.TicketDto,
+    status_code=status.HTTP_200_OK,
+)
+async def update_ticket(
+    ticket_id: int,
+    ticket: models.TicketCreate = Body(...),
+    db: Session = Depends(get_db),
+    user: models.User = Depends(current_user),
+):
+    """
+    Update ticket by id.
+    """
+    try:
+        return service.ticket.update(db, ticket)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail="Ticket not found")
+
+
+@router.get("/{ticket_id}/review")
+async def review(
+    payload: models.TicketReviewCreate,
+    db: Session = Depends(get_db),
+    user: models.User = Depends(current_user),
+):
+    return service.ticket.review(db, payload, user)

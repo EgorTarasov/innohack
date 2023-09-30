@@ -40,11 +40,11 @@ async def create_user(
     """
     Create a new user.
     """
-    # try:
-    return service.user.create(db, user)
-    # except Exception as e:
-    #     logging.error(f"Error create user: {e}")
-    #     raise HTTPException(status_code=400, detail=f"User with email already exists")
+    try:
+        return service.user.create(db, user)
+    except Exception as e:
+        logging.error(f"Error create user: {e}")
+        raise HTTPException(status_code=400, detail=f"User with email already exists")
 
 
 @router.get(
@@ -63,14 +63,27 @@ async def get_user(
     return models.UserDto.model_validate(user)
 
 
+@router.get(
+    "/all",
+    response_model=list[models.UserDto],
+    status_code=status.HTTP_200_OK,
+)
+async def get_all_users(
+    db: Session = Depends(get_db),
+    user: models.User = Depends(current_user),
+):
+    """
+    Get all users
+    """
+    return service.user.get_all(db)
+
+
 @router.post(
     "/login",
     response_model=models.Token,
     status_code=status.HTTP_200_OK,
 )
 async def login_user(
-    request: Request,
-    response: Response,
     user: models.UserLogin = Body(...),
     db: Session = Depends(get_db),
 ):
@@ -78,8 +91,7 @@ async def login_user(
     Login user.
     """
     try:
-        return service.user.authenticate(db, user),
+        return service.user.authenticate(db, user)
     except Exception as e:
         logging.error(f"Error login user: {e}")
         raise HTTPException(status_code=400, detail=f"Incorrect email or password")
-

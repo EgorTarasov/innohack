@@ -36,6 +36,7 @@ def create_app() -> FastAPI:
     _app.include_router(routers.user.router)
     _app.include_router(routers.ticket.router)
     _app.include_router(routers.mailing.router)
+    _app.include_router(routers.metadata.router)
 
     return _app
 
