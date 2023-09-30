@@ -1,5 +1,7 @@
+import csv
+
+from app import crud, models, schemas, utils
 from sqlalchemy.orm import Session
-from app import crud, models, schemas
 
 
 def create(
@@ -44,6 +46,33 @@ def get_all(db: Session, user: models.User):
             level=db_ticket.level,
         )
         for db_ticket in crud.ticket.get_all(db)
+    ]
+
+
+def get_all_by_role(db: Session, role_id: int):
+    """Получение всех задач по роли
+
+    Args:
+        db (Session): сессия к бд
+        role_id (int): id роли
+
+    Returns:
+        list[models.TicketDto]: список задач
+    """
+
+    return [
+        schemas.TicketDto(
+            id=db_ticket.id,
+            sprint_id=db_ticket.sprint_id,
+            title=db_ticket.title,
+            description=db_ticket.description,
+            reporter_id=db_ticket.reporter_id,
+            assignee_id=db_ticket.assignee_id,
+            due_date=db_ticket.due_date,
+            roles=db_ticket.role,
+            level=db_ticket.level,
+        )
+        for db_ticket in crud.ticket.get_all_by_role(db, role_id)
     ]
 
 
@@ -103,3 +132,31 @@ def review(
     """
     db_ticket_review = crud.ticket_review.create(db, payload, user)
     return models.TicketReviewDto.model_validate(db_ticket_review)
+
+
+def upload_csv(db: Session, csv_reader: csv.DictReader) -> list[schemas.TicketDto]:
+    """Загрузка задач из csv
+
+    Args:
+        csv_reader (csv.DictReader): csv reader
+        user (models.User): пользователь
+    """
+
+    tickets = utils.parsers.csv_reader_to_tickets(csv_reader)
+
+    #    tickets = crud.ticket.bulk_create(db, tickets)
+    crud
+    return [
+        schemas.TicketDto(
+            id=db_ticket.id,
+            sprint_id=db_ticket.sprint_id,
+            title=db_ticket.title,
+            description=db_ticket.description,
+            reporter_id=db_ticket.reporter_id,
+            assignee_id=db_ticket.assignee_id,
+            due_date=db_ticket.due_date,
+            roles=db_ticket.role,
+            level=db_ticket.level,
+        )
+        for db_ticket in crud.ticket.bulk_create(db, tickets)
+    ]

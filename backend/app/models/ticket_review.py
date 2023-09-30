@@ -1,8 +1,9 @@
 from typing import Optional
-from pydantic import BaseModel, Field, ConfigDict
+
+from app.db import BaseSqlModel
+from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy import Boolean, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from app.db import BaseSqlModel
 
 
 class TicketReview(BaseSqlModel):
@@ -23,7 +24,7 @@ class TicketReview(BaseSqlModel):
 
 
 class TicketReviewCreate(BaseModel):
-    ticket_id: int = Field(...)
+    ticket_id: int | None = Field(None)
     duration: int | None = Field(None)
 
 

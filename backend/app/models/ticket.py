@@ -1,9 +1,10 @@
 from datetime import datetime
-from pydantic import BaseModel, Field, ConfigDict
-from sqlalchemy import Integer, String, Boolean, DateTime, ForeignKey
+
+from app.db import BaseSqlModel
+from pydantic import BaseModel, ConfigDict, Field
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from app.db import BaseSqlModel
 
 
 class Ticket(BaseSqlModel):
@@ -23,6 +24,8 @@ class Ticket(BaseSqlModel):
 
     role = relationship("Role")
     level = relationship("Level")
+
+    # durations = relationship("TicketReview")
 
     def __repr__(self):
         return f"<Ticket {self.title}>"
