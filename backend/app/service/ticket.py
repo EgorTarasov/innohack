@@ -7,7 +7,6 @@ from sqlalchemy.orm import Session
 def create(
     db: Session, ticket: models.TicketCreate, user: models.User
 ) -> schemas.TicketDto:
-    # FIXME not enough fields)
     """Создание задачи
 
     Args:
@@ -18,8 +17,7 @@ def create(
     Returns:
         models.TicketDto: данные задачи
     """
-    db_ticket = crud.ticket.create(db, ticket)
-    return schemas.TicketDto.model_validate(db_ticket)
+    return utils.ticket.assemble_ticket_dto(crud.ticket.create(db, ticket))
 
 
 def get_all(db: Session, user: models.User):
@@ -33,20 +31,7 @@ def get_all(db: Session, user: models.User):
         list[models.TicketDto]: список задач
     """
 
-    return [
-        schemas.TicketDto(
-            id=db_ticket.id,
-            sprint_id=db_ticket.sprint_id,
-            title=db_ticket.title,
-            description=db_ticket.description,
-            reporter_id=db_ticket.reporter_id,
-            assignee_id=db_ticket.assignee_id,
-            due_date=db_ticket.due_date,
-            roles=db_ticket.role,
-            level=db_ticket.level,
-        )
-        for db_ticket in crud.ticket.get_all(db)
-    ]
+    return utils.ticket.assemble_ticket_dtos(crud.ticket.get_all(db))
 
 
 def get_all_by_role(db: Session, role_id: int):
@@ -60,20 +45,7 @@ def get_all_by_role(db: Session, role_id: int):
         list[models.TicketDto]: список задач
     """
 
-    return [
-        schemas.TicketDto(
-            id=db_ticket.id,
-            sprint_id=db_ticket.sprint_id,
-            title=db_ticket.title,
-            description=db_ticket.description,
-            reporter_id=db_ticket.reporter_id,
-            assignee_id=db_ticket.assignee_id,
-            due_date=db_ticket.due_date,
-            roles=db_ticket.role,
-            level=db_ticket.level,
-        )
-        for db_ticket in crud.ticket.get_all_by_role(db, role_id)
-    ]
+    return utils.ticket.assemble_ticket_dtos(crud.ticket.get_all_by_role(db, role_id))
 
 
 def get(db: Session, ticket_id: int) -> schemas.TicketDto:
@@ -87,18 +59,7 @@ def get(db: Session, ticket_id: int) -> schemas.TicketDto:
     Returns:
         models.TicketDto: данные задачи
     """
-    db_ticket = crud.ticket.get(db, ticket_id)
-    return schemas.TicketDto(
-        id=db_ticket.id,
-        sprint_id=db_ticket.sprint_id,
-        title=db_ticket.title,
-        description=db_ticket.description,
-        reporter_id=db_ticket.reporter_id,
-        assignee_id=db_ticket.assignee_id,
-        due_date=db_ticket.due_date,
-        roles=db_ticket.role,
-        level=db_ticket.level,
-    )
+    return utils.ticket.assemble_ticket_dto(crud.ticket.get(db, ticket_id))
 
 
 def update(db: Session, payload: models.TicketCreate) -> schemas.TicketDto:
@@ -112,9 +73,7 @@ def update(db: Session, payload: models.TicketCreate) -> schemas.TicketDto:
     Returns:
         models.TicketDto: данные задачи
     """
-    db_ticket = crud.ticket.update(db, payload)
-    # FIXME not enough fields)
-    return schemas.TicketDto.model_validate(db_ticket)
+    return utils.ticket.assemble_ticket_dto(crud.ticket.update(db, payload))
 
 
 def review(
@@ -143,20 +102,5 @@ def upload_csv(db: Session, csv_reader: csv.DictReader) -> list[schemas.TicketDt
     """
 
     tickets = utils.parsers.csv_reader_to_tickets(csv_reader)
-
-    #    tickets = crud.ticket.bulk_create(db, tickets)
-    crud
-    return [
-        schemas.TicketDto(
-            id=db_ticket.id,
-            sprint_id=db_ticket.sprint_id,
-            title=db_ticket.title,
-            description=db_ticket.description,
-            reporter_id=db_ticket.reporter_id,
-            assignee_id=db_ticket.assignee_id,
-            due_date=db_ticket.due_date,
-            roles=db_ticket.role,
-            level=db_ticket.level,
-        )
-        for db_ticket in crud.ticket.bulk_create(db, tickets)
-    ]
+    tickets = crud.ticket.bulk_create(db, tickets)
+    return utils.ticket.assemble_ticket_dtos(tickets)

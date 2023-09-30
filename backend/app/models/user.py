@@ -1,8 +1,9 @@
 from datetime import datetime
-from pydantic import BaseModel, Field, ConfigDict
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
-from sqlalchemy.orm import relationship, Mapped, mapped_column
+
 from app.db import BaseSqlModel
+from pydantic import BaseModel, ConfigDict, Field
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
 class User(BaseSqlModel):
@@ -23,7 +24,7 @@ class User(BaseSqlModel):
 
 
 class UserCreate(BaseModel):
-    # define extra schema for UserCreate with example
+    # TODO: add assigned_tickets
     model_config = ConfigDict(
         json_schema_extra={
             "example": {

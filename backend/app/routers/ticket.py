@@ -119,7 +119,7 @@ async def review(
 
 @router.post("/upload")
 async def upload_csv(
-    file: UploadFile | None = None,
+    file: UploadFile,
     db: Session = Depends(get_db),
     user: models.User = Depends(current_user),
 ):

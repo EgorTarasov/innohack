@@ -44,11 +44,24 @@ def get(db: Session, id: int) -> models.Ticket:
 
 
 def get_all(db: Session) -> list[models.Ticket]:
-    return db.query(models.Ticket).all()
+    """Получение задач из бэклога
+    задача считается не распределенной, если у нее нет sprint_id
+
+    Args:
+        db (Session): Сессия подключения к бд
+
+    Returns:
+        list[models.Ticket]: бэклог
+    """
+    return db.query(models.Ticket).filter(models.Ticket.sprint_id == None).all()
 
 
 def get_all_by_role(db: Session, role_id: int) -> list[models.Ticket]:
-    return db.query(models.Ticket).filter(models.Ticket.role_id == role_id).all()
+    return (
+        db.query(models.Ticket)
+        .filter((models.Ticket.sprint_id == None) & (models.Ticket.role_id == role_id))
+        .all()
+    )
 
 
 def get_backlog(
@@ -60,9 +73,11 @@ def get_backlog(
 def bulk_create(db: Session, tickets: list[models.Ticket]) -> list[models.Ticket]:
     # length = len(tickets)
     db.add_all(tickets)
-    
+
     db.commit()
     for ticket in tickets:
         db.refresh(ticket)
-    
+
     return tickets
+
+    

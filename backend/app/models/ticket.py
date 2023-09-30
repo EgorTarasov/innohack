@@ -19,13 +19,14 @@ class Ticket(BaseSqlModel):
         Integer, ForeignKey("users.id"), nullable=True
     )
     due_date: Mapped[datetime] = mapped_column(DateTime)
+    priority: Mapped[int] = mapped_column(Integer, default=1)
     role_id: Mapped[list[int]] = mapped_column(Integer, ForeignKey("roles.id"))
     level_id: Mapped[int] = mapped_column(Integer, ForeignKey("levels.id"))
 
     role = relationship("Role")
     level = relationship("Level")
 
-    # durations = relationship("TicketReview")
+    durations = relationship("TicketReview")
 
     def __repr__(self):
         return f"<Ticket {self.title}>"

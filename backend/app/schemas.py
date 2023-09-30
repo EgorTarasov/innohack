@@ -32,5 +32,5 @@ class TicketDto(BaseModel):
     due_date: datetime = Field(..., alias="due_date")
     roles: models.RoleDto = Field(...)
     level: models.LevelDto = Field(...)
-    # durations: list[int] = Field(..., alias="duration")
-    # priority: int = Field(..., alias="priority", le=3, ge=1)
+    durations: list[int] = Field(...)
+    priority: int = Field(..., alias="priority", le=3, ge=1)
