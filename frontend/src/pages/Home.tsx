@@ -17,7 +17,7 @@ const items: TabsProps['items'] = [
     },
     {
         key: '2',
-        label: 'Беклог',
+        label: 'Бэклог',
         children: <BacklogList />,
     },
 ];

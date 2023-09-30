@@ -30,7 +30,7 @@ const ReviewTicket = ({ ticket }: Props) => {
     return (
         <>
             {contextHolder}
-            <Card className='ticket'>
+            <Card style={{ marginTop: 20 }} className='ticket'>
                 <Row justify={'space-between'}>
                     <Col span={16}>
                         <Typography.Title className='title-5' level={5}>

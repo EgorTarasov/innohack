@@ -1,5 +1,5 @@
 import { makeAutoObservable, observable, runInAction } from 'mobx';
-import { Ticket } from '../api/models';
+import { CreateSprintBody, Sprint, Ticket } from '../api/models';
 import { TicketApiServiceInstanse } from '../api/TicketApiService';
 
 export class RootStore {
@@ -61,6 +61,21 @@ export class RootStore {
             this.getTickets();
             this.getTicketsByUserRole(12);
         });
+
+        return response;
+    }
+
+    public async createSprint(body: CreateSprintBody): Promise<Sprint> {
+        const response = await TicketApiServiceInstanse.createSprint(body).finally(() => {
+            this.getTickets();
+            this.getTicketsByUserRole(12);
+        });
+
+        return response;
+    }
+
+    public async getAllUsers() {
+        const response = await TicketApiServiceInstanse.getAllUsers();
 
         return response;
     }

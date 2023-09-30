@@ -1,7 +1,60 @@
 import axios from 'axios';
 import { API_URL } from '../config';
 import authHeader from '../utils/authHeader';
-import { Ticket } from './models';
+import { CreateSprintBody, Sprint, Ticket, Worker } from './models';
+
+const sprint: Sprint = {
+    id: 1,
+    duration: 1,
+    target: 'test',
+    is_finished: false,
+    users: [
+        {
+            user_data: {
+                id: 2,
+                username: 'Иван Иванов',
+                hours: 20,
+            },
+            tickets: [
+                {
+                    id: 42,
+                    sprint_id: 1,
+                    title: 'Ticket 2 Title',
+                    description: 'Ticket 2 Description',
+                    reporter_id: 2,
+                    assignee_id: 3,
+                    due_date: '2022-01-02T00:00:00',
+                    roles: { role_id: 13, label: 'Frontend' },
+                    level: { level_id: 9, label: 'Senior' },
+                    durations: [1, 2, 4],
+                    priority: 1,
+                },
+            ],
+        },
+        {
+            user_data: {
+                id: 2,
+                username: 'Иван Иванов',
+                hours: 20,
+            },
+            tickets: [
+                {
+                    id: 42,
+                    sprint_id: 1,
+                    title: 'Ticket 2 Title',
+                    description: 'Ticket 2 Description',
+                    reporter_id: 2,
+                    assignee_id: 3,
+                    due_date: '2022-01-02T00:00:00',
+                    roles: { role_id: 13, label: 'Frontend' },
+                    level: { level_id: 9, label: 'Senior' },
+                    durations: [1, 2, 4],
+                    priority: 1,
+                },
+            ],
+        },
+    ],
+};
 
 class TicketApiService {
     public async getTickets() {
@@ -54,6 +107,55 @@ class TicketApiService {
 
     public async changeTicketDuration(ticketId: number, body: { duration: number }) {
         const response = await axios.post<void>(`${API_URL}/ticket/${ticketId}/review`, body, {
+            headers: authHeader(),
+        });
+
+        return response.data;
+    }
+
+    public async createSprint(body: CreateSprintBody): Promise<Sprint> {
+        return sprint;
+
+        const response = await axios.post<Sprint>(`${API_URL}/sprint`, body, {
+            headers: authHeader(),
+        });
+
+        return response.data;
+    }
+
+    public async getLatestSprint(): Promise<Sprint> {
+        return sprint;
+
+        const response = await axios.get<Sprint>(`${API_URL}/sprint`, {
+            headers: authHeader(),
+        });
+
+        return response.data;
+    }
+
+    public async getAllUsers(): Promise<Worker[]> {
+        return [
+            {
+                id: 1,
+                email: 'email',
+                username: 'username',
+                is_active: true,
+                is_superuser: true,
+                created_at: '2021-01-01',
+                updated_at: '2021-01-01',
+            },
+            {
+                id: 2,
+                email: 'email2',
+                username: 'username2',
+                is_active: true,
+                is_superuser: true,
+                created_at: '2021-01-01',
+                updated_at: '2021-01-01',
+            },
+        ];
+
+        const response = await axios.get<Worker[]>(`${API_URL}/user/all`, {
             headers: authHeader(),
         });
 

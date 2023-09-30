@@ -14,10 +14,15 @@
     border: 1px solid #0277ff;
 }
 
-.title-5 {
+.title-5,
+.ant-modal-title {
     font-size: 18px !important;
     color: #0277ff !important;
     font-weight: 500 !important;
+}
+
+.ant-modal-title {
+    font-size: 32px !important;
 }
 
 .tag {
@@ -50,5 +55,18 @@
         background-color: transparent !important;
         color: #ffda1a !important;
         border: 1px solid rgba(255, 218, 26, 0.4) !important;
+    }
+}
+
+.button {
+    &_secondary {
+        background-color: rgba(2, 119, 255, 0.12) !important;
+        color: #0277ff !important;
+    }
+}
+
+.sh-select {
+    label {
+        margin-top: 10px;
     }
 }
