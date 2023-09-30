@@ -29,7 +29,7 @@ class TicketDto(BaseModel):
     reporter_id: int = Field(..., alias="reporter_id")
     assignee_id: int | None = Field(None, alias="assignee_id")
     due_date: datetime = Field(..., alias="due_date")
-    roles: list[models.RoleDto] = Field(...)
+    roles: models.RoleDto = Field(...)
     level: models.LevelDto = Field(...)
     # durations: list[int] = Field(..., alias="duration")
     # priority: int = Field(..., alias="priority", le=3, ge=1)

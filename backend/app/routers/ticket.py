@@ -92,7 +92,7 @@ async def update_ticket(
         raise HTTPException(status_code=404, detail="Ticket not found")
 
 
-@router.get("/{ticket_id}/review")
+@router.post("/{ticket_id}/review")
 async def review(
     payload: models.TicketReviewCreate,
     db: Session = Depends(get_db),

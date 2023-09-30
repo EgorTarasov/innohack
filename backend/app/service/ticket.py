@@ -5,7 +5,7 @@ from app import crud, models, schemas
 def create(
     db: Session, ticket: models.TicketCreate, user: models.User
 ) -> schemas.TicketDto:
-    #FIXME not enough fields)
+    # FIXME not enough fields)
     """Создание задачи
 
     Args:
@@ -31,7 +31,20 @@ def get_all(db: Session, user: models.User):
         list[models.TicketDto]: список задач
     """
 
-    return crud.ticket.get_all(db)
+    return [
+        schemas.TicketDto(
+            id=db_ticket.id,
+            sprint_id=db_ticket.sprint_id,
+            title=db_ticket.title,
+            description=db_ticket.description,
+            reporter_id=db_ticket.reporter_id,
+            assignee_id=db_ticket.assignee_id,
+            due_date=db_ticket.due_date,
+            roles=db_ticket.role,
+            level=db_ticket.level,
+        )
+        for db_ticket in crud.ticket.get_all(db)
+    ]
 
 
 def get(db: Session, ticket_id: int) -> schemas.TicketDto:
@@ -46,11 +59,6 @@ def get(db: Session, ticket_id: int) -> schemas.TicketDto:
         models.TicketDto: данные задачи
     """
     db_ticket = crud.ticket.get(db, ticket_id)
-    roles = [
-        models.RoleDto.model_validate(role)
-        for role in crud.role.get_list(db, db_ticket.role_ids)
-    ]
-    level = models.LevelDto.model_validate(crud.level.get(db, db_ticket.level_id))
     return schemas.TicketDto(
         id=db_ticket.id,
         sprint_id=db_ticket.sprint_id,
@@ -59,8 +67,8 @@ def get(db: Session, ticket_id: int) -> schemas.TicketDto:
         reporter_id=db_ticket.reporter_id,
         assignee_id=db_ticket.assignee_id,
         due_date=db_ticket.due_date,
-        roles=roles,
-        level=level,
+        roles=db_ticket.role,
+        level=db_ticket.level,
     )
 
 
@@ -76,7 +84,7 @@ def update(db: Session, payload: models.TicketCreate) -> schemas.TicketDto:
         models.TicketDto: данные задачи
     """
     db_ticket = crud.ticket.update(db, payload)
-    #FIXME not enough fields)
+    # FIXME not enough fields)
     return schemas.TicketDto.model_validate(db_ticket)
 
 
