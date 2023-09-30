@@ -21,6 +21,13 @@ class User(BaseSqlModel):
     def __repr__(self):
         return f"<User {self.email}>"
 
+    created_tickets = relationship(
+        "Ticket", back_populates="author", primaryjoin="User.id==Ticket.author_id"
+    )
+    taken_tickets = relationship(
+        "Ticket", back_populates="worker", primaryjoin="User.id==Ticket.worker_id"
+    )
+
 
 class UserCreate(BaseModel):
     # define extra schema for UserCreate with example

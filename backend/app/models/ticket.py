@@ -116,4 +116,4 @@ class UserTicketDto(BaseModel):
     user_id: int = Field(..., alias="user_id")
     ticket_id: int = Field(..., alias="ticket_id")
     duration: int | None = Field(None, alias="duration")
-    reviewed: bool = Field(..., alias="revieved")
+    revie
