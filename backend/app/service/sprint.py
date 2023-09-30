@@ -28,7 +28,10 @@ def assemble_sprint(
 
     for ticket in tickets:
         if ticket.durations:
-            print(min(ticket.durations, key=lambda x: x.duration).duration, min(ticket.durations, key=lambda x: x.duration).user_id)
+            print(
+                min(ticket.durations, key=lambda x: x.duration).duration,
+                min(ticket.durations, key=lambda x: x.duration).user_id,
+            )
         ticket_review_dict[ticket.id].sort(key=lambda x: x[1])
 
     # # assemble tickets by users
@@ -57,8 +60,6 @@ def assemble_sprint(
 
     for ticket in tickets:
         for user_id, duration in ticket_review_dict[ticket.id]:
-            print(user_id, duration)
-            print(user_hours[user_id])
             if user_hours[user_id] >= duration:
                 user_hours[user_id] -= duration
                 ticket.sprint_id = db_sprint.id
@@ -80,7 +81,7 @@ def assemble_sprint(
         duration=sprint_create.duration,
         target=sprint_create.target,
         is_finished=False,
-        users=user_tickets_sprint,
+        users=[value for key, value in user_tickets_sprint.items()],
     )
 
     db_sprint.duration = sprint_create.duration

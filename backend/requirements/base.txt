@@ -8,3 +8,4 @@ sqlalchemy
 python-jose
 passlib
 jinja2
+openai

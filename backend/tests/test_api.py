@@ -176,66 +176,67 @@ def test_create_multiple_tickets():
 
 
 def test_create_multiple_ticket_reviews():
+
     test_data = [
         {
             "ticket_id": 1,
-            "duration": 60,
+            "duration": 8,
         },
         {
             "ticket_id": 2,
-            "duration": 60,
+            "duration": 12,
         },
         {
             "ticket_id": 3,
-            "duration": 60,
+            "duration": 5,
         },
         {
             "ticket_id": 4,
-            "duration": 60,
+            "duration": 20,
         },
         {
             "ticket_id": 5,
-            "duration": 60,
+            "duration": 4,
         },
         {
             "ticket_id": 6,
-            "duration": 60,
+            "duration": 21,
         },
         {
             "ticket_id": 7,
-            "duration": 60,
+            "duration": 13,
         },
         {
             "ticket_id": 8,
-            "duration": 60,
+            "duration": 12,
         },
         {
             "ticket_id": 9,
-            "duration": 60,
+            "duration": 9,
         },
         {
             "ticket_id": 10,
-            "duration": 60,
+            "duration": 8,
         },
         {
             "ticket_id": 11,
-            "duration": 60,
+            "duration": 5,
         },
         {
             "ticket_id": 12,
-            "duration": 60,
+            "duration": 4,
         },
         {
             "ticket_id": 13,
-            "duration": 60,
+            "duration": 3,
         },
         {
             "ticket_id": 14,
-            "duration": 60,
+            "duration": 9,
         },
         {
             "ticket_id": 15,
-            "duration": 60,
+            "duration": 10,
         },
     ]
 

@@ -1,8 +1,7 @@
 from app import schemas
 from app.db import BaseSqlModel
 from pydantic import BaseModel, ConfigDict, Field
-from sqlalchemy import (Boolean, Column, DateTime, Float, ForeignKey, Integer,
-                        String)
+from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
@@ -24,24 +23,22 @@ class SprintDto(BaseModel):
                 "duration": 1,
                 "target": "test",
                 "is_finished": False,
-                "users": {
-                    1: {
+                "users": [
+                    {
                         "user_data": {"id": 2, "username": "Иван Иванов", "hours": 20},
-                        "tickets": [
-                            {
-                                "id": 42,
-                                "sprint_id": None,
-                                "title": "Ticket 2 Title",
-                                "description": "Ticket 2 Description",
-                                "reporter_id": 2,
-                                "assignee_id": 3,
-                                "due_date": "2022-01-02T00:00:00",
-                                "roles": {"id": 13, "label": "Frontend"},
-                                "level": {"id": 9, "label": "Senior"},
-                            }
-                        ],
-                    },
-                },
+                        "tickets": {
+                            "id": 42,
+                            "sprint_id": None,
+                            "title": "Ticket 2 Title",
+                            "description": "Ticket 2 Description",
+                            "reporter_id": 2,
+                            "assignee_id": 3,
+                            "due_date": "2022-01-02T00:00:00",
+                            "roles": {"id": 13, "label": "Frontend"},
+                            "level": {"id": 9, "label": "Senior"},
+                        },
+                    }
+                ],
             }
         },
     )
@@ -51,7 +48,7 @@ class SprintDto(BaseModel):
     duration: int = Field(..., ge=1, le=5)
     is_finished: bool = Field(..., alias="is_finished")
 
-    users: dict[int, dict] = Field(...)
+    users: list[dict] = Field(...)
 
 
 class UserLoad(BaseModel):
