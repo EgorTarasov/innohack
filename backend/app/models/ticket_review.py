@@ -20,7 +20,7 @@ class TicketReview(BaseSqlModel):
         foreign_keys=[user_id],
         primaryjoin="User.id==TicketReview.user_id",
     )
-    ticket = relationship("Ticket", foreign_keys=[ticket_id])
+    # ticket = relationship("Ticket", foreign_keys=[ticket_id])
 
 
 class TicketReviewCreate(BaseModel):

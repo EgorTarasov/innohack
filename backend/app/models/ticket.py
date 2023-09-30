@@ -20,7 +20,7 @@ class Ticket(BaseSqlModel):
     )
     due_date: Mapped[datetime] = mapped_column(DateTime)
     priority: Mapped[int] = mapped_column(Integer, default=1)
-    role_id: Mapped[list[int]] = mapped_column(Integer, ForeignKey("roles.id"))
+    role_id: Mapped[int] = mapped_column(Integer, ForeignKey("roles.id"))
     level_id: Mapped[int] = mapped_column(Integer, ForeignKey("levels.id"))
 
     role = relationship("Role")
@@ -42,5 +42,5 @@ class TicketCreate(BaseModel):
     assignee_id: int | None = Field(None)
     due_date: datetime | None = Field(None)
     priority: int = Field(..., ge=1, le=3)
-    roles: list[int] = Field(...)
-    level: int = Field(...)
+    role_id: int = Field(...)
+    level_id: int = Field(...)

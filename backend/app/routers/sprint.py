@@ -11,10 +11,10 @@ router = APIRouter(prefix="/sprint", tags=["sprint"])
 
 @router.post(
     "/",
-    response_model=schemas.SprintDto,
+    response_model=models.SprintDto,
     status_code=status.HTTP_201_CREATED,
 )
-async def create_ticket(
+async def create_(
     sprint_create: models.SprintCreate = Body(...),
     db: Session = Depends(get_db),
     user: models.User = Depends(current_user),

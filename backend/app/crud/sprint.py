@@ -2,13 +2,12 @@ from sqlalchemy.orm import Session
 from app import models
 
 
-def create(db: Session, payload: models.SprintDto) -> models.SprintDto:
+def create(db: Session, payload: models.SprintDto) -> models.Sprint:
     db_sprint = models.Sprint()
 
     db_sprint.duration = payload.duration
     db_sprint.target = payload.target
     db_sprint.is_finished = payload.is_finished
-    db_sprint.users = payload.users
 
     db.add(db_sprint)
     db.commit()
@@ -36,7 +35,6 @@ def get(db: Session, _id: int) -> models.SprintDto:
     db_sprint_dto.is_finished = db_sprint.is_finished
     
     db_sprint_dto.users = {}
-    for 
     
 
     if not db_sprint:

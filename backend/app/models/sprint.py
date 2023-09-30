@@ -51,7 +51,7 @@ class SprintDto(BaseModel):
     duration: int = Field(..., ge=1, le=5)
     is_finished: bool = Field(..., alias="is_finished")
 
-    users: dict[int, schemas.TicketDto] = Field(...)
+    users: dict[int, dict] = Field(...)
 
 
 class UserLoad(BaseModel):

@@ -13,6 +13,9 @@ def create(db: Session, payload: models.TicketCreate) -> models.Ticket:
         reporter_id=payload.reporter_id,
         assignee_id=payload.assignee_id,
         due_date=payload.due_date,
+        role_id=payload.role_id,
+        level_id=payload.level_id,
+        priority=payload.priority,
     )
     db.add(ticket)
     db.commit()
@@ -79,5 +82,3 @@ def bulk_create(db: Session, tickets: list[models.Ticket]) -> list[models.Ticket
         db.refresh(ticket)
 
     return tickets
-
-    
