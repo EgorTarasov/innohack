@@ -42,12 +42,12 @@ const ReviewTicket = ({ ticket }: Props) => {
                         <Row justify={'end'} gutter={5}>
                             <Col>
                                 <Tag className='tag tag__skill' color='#0277ff'>
-                                    {ticket.role.label}
+                                    {ticket.roles?.label}
                                 </Tag>
                             </Col>
                             <Col>
                                 <Tag className='tag tag__level' color='#8024C0'>
-                                    {ticket.level.label}
+                                    {ticket.level?.label}
                                 </Tag>
                             </Col>
                         </Row>
@@ -68,7 +68,7 @@ const ReviewTicket = ({ ticket }: Props) => {
                     <FireFilled style={{ color: '#0A0A0A' }} />
 
                     <Typography.Paragraph style={{ marginBottom: 0, marginLeft: 10 }}>
-                        <b>Дедлайн</b> — {ticket.due_date}
+                        <b>Дедлайн</b> — {new Date(ticket.due_date).toLocaleDateString()}
                     </Typography.Paragraph>
                 </Row>
 

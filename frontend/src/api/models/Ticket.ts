@@ -10,7 +10,7 @@ export interface Ticket {
     assignee_id: number;
     due_date: string;
     durations: number[];
-    role: Role;
+    roles: Role;
     level: Level;
     priority: number;
 }

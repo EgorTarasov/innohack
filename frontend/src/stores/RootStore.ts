@@ -54,6 +54,14 @@ export class RootStore {
     }
 
     public async changeTicketDuration(ticketId: number, body: { duration: number }): Promise<void> {
-        return TicketApiServiceInstanse.changeTicketDuration(ticketId, body);
+        const response = await TicketApiServiceInstanse.changeTicketDuration(
+            ticketId,
+            body
+        ).finally(() => {
+            this.getTickets();
+            this.getTicketsByUserRole(12);
+        });
+
+        return response;
     }
 }

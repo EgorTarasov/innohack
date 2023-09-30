@@ -21,7 +21,7 @@ const BacklogTicket = ({ ticket }: Props) => {
                     <Row justify={'end'} gutter={5}>
                         <Col>
                             <Tag className='tag tag__skill' color='#0277ff'>
-                                {ticket.role.label}
+                                {ticket.roles.label}
                             </Tag>
                         </Col>
                         <Col>
@@ -47,7 +47,7 @@ const BacklogTicket = ({ ticket }: Props) => {
                 <FireFilled style={{ color: '#0A0A0A' }} />
 
                 <Typography.Paragraph style={{ marginBottom: 0, marginLeft: 10 }}>
-                    <b>Дедлайн</b> — {ticket.due_date}
+                    <b>Дедлайн</b> — {new Date(ticket.due_date).toLocaleDateString()}
                 </Typography.Paragraph>
             </Row>
 
@@ -56,7 +56,7 @@ const BacklogTicket = ({ ticket }: Props) => {
                     Время выполнения:{' '}
                     <span style={{ fontSize: 18 }}>
                         {ticket.durations?.length && ticket.durations[0]}-
-                        {ticket.durations.length && ticket.durations[ticket.durations.length - 1]}{' '}
+                        {ticket.durations?.length && ticket.durations[ticket.durations.length - 1]}{' '}
                     </span>
                     story points
                 </Typography.Paragraph>

@@ -4,6 +4,7 @@ import ReviewList from '../components/ReviewList';
 import BacklogList from '../components/BacklogList';
 import { useEffect } from 'react';
 import { useStores } from '../hooks/useStores';
+import Sprint from '../components/Sprint';
 
 const items: TabsProps['items'] = [
     {
@@ -15,6 +16,19 @@ const items: TabsProps['items'] = [
         key: '2',
         label: 'Беклог',
         children: <BacklogList />,
+    },
+];
+
+const sprintItems: TabsProps['items'] = [
+    {
+        key: '1',
+        label: 'Текущий спринт',
+        children: <Sprint />,
+    },
+    {
+        key: '2',
+        label: 'Статистика',
+        children: 'Статистика',
     },
 ];
 
@@ -43,14 +57,12 @@ const Home = () => {
                     }}
                 ></Header>
                 <Content style={{ padding: '0 50px' }}>
-                    <Row gutter={30}>
+                    <Row gutter={50}>
                         <Col span={12}>
                             <Tabs defaultActiveKey='1' items={items} />
                         </Col>
                         <Col span={12}>
-                            <div className='site-layout-background' style={{ padding: 24 }}>
-                                content 2
-                            </div>
+                            <Tabs defaultActiveKey='1' items={sprintItems} />
                         </Col>
                     </Row>
                 </Content>
