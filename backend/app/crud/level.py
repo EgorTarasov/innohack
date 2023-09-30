@@ -26,3 +26,7 @@ def get(db: Session, _id: int) -> models.Level:
     if not db_level:
         raise Exception(f"Level {_id} not found")
     return db_level
+
+
+def get_all(db: Session) -> list[models.Level]:
+    return db.query(models.Level).all()

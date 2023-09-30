@@ -1,5 +1,5 @@
-from sqlalchemy.orm import Session
 from app import models
+from sqlalchemy.orm import Session
 
 
 def create(db: Session, payload: models.RoleCreate) -> models.Role:
@@ -33,3 +33,15 @@ def get(db: Session, _id: int) -> models.Role:
     if not db_role:
         raise Exception(f"Role with id {_id} not found")
     return db_role
+
+
+def get_all(db: Session) -> list[models.Role]:
+    """Получение всех ролей
+
+    Args:
+        db (Session): сессия к бд
+
+    Returns:
+        list[models.RoleDto]: список ролей
+    """
+    return db.query(models.Role).all()

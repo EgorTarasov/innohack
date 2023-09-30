@@ -1,20 +1,11 @@
 import logging
 from typing import Annotated
-from fastapi import (
-    APIRouter,
-    Cookie,
-    Depends,
-    status,
-    Response,
-    Request,
-    Body,
-    HTTPException,
-)
+
+from app import config, models, service
+from app.dependencies import current_user, get_db
+from fastapi import (APIRouter, Body, Cookie, Depends, HTTPException, Request,
+                     Response, status)
 from sqlalchemy.orm import Session
-
-from app.dependencies import get_db, current_user
-from app import service, models, config
-
 
 router = APIRouter(prefix="/user", tags=["user"])
 
@@ -60,7 +51,11 @@ async def get_user(
     """
     Get current user.
     """
-    return models.UserDto.model_validate(user)
+    try:
+        return models.UserDto.model_validate(user)
+    except Exception as e:
+        logging.error(f"Error get user: {e}")
+        raise HTTPException(status_code=400, detail=f"User not found")
 
 
 @router.get(
