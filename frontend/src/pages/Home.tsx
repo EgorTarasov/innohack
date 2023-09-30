@@ -1,10 +1,13 @@
-import { Col, Layout, Row, Tabs, TabsProps } from 'antd';
+import { Col, Layout, Row, Tabs, TabsProps, Tag } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
 import ReviewList from '../components/ReviewList';
 import BacklogList from '../components/BacklogList';
 import { useEffect } from 'react';
 import { useStores } from '../hooks/useStores';
 import Sprint from '../components/Sprint';
+import { Link } from 'react-router-dom';
+import { LogoutOutlined } from '@ant-design/icons';
+import AuthService from '../api/AuthService';
 
 const items: TabsProps['items'] = [
     {
@@ -53,9 +56,34 @@ const Home = () => {
                         width: '100%',
                         display: 'flex',
                         alignItems: 'center',
+                        justifyContent: 'end',
                         background: '#ffffff',
+                        borderBottom: '1px solid #e8e8e8',
                     }}
-                ></Header>
+                >
+                    <Col>
+                        <span style={{ marginLeft: 10 }}>
+                            Роль:{' '}
+                            <Tag className='tag tag__skill' color='#0277ff'>
+                                Backend
+                            </Tag>
+                        </span>
+
+                        <Link
+                            onClick={() => {
+                                AuthService.logout();
+
+                                setTimeout(() => {
+                                    window.location.href = '/login';
+                                }, 100);
+                            }}
+                            to='/login'
+                            style={{ marginLeft: 20 }}
+                        >
+                            <LogoutOutlined style={{}} />
+                        </Link>
+                    </Col>
+                </Header>
                 <Content style={{ padding: '0 50px' }}>
                     <Row gutter={50}>
                         <Col span={12}>
