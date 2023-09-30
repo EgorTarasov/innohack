@@ -9,7 +9,7 @@ const ReviewList = observer(() => {
 
     useEffect(() => {
         async function fetchBacklog() {
-            await rootStore.getTicketsByUserRole(12);
+            await rootStore.getTicketsByUserRole(1);
         }
         fetchBacklog();
     }, [rootStore]);

@@ -77,3 +77,13 @@
         margin-top: 0;
     }
 }
+
+.timeline-tile {
+    height: 40px;
+    background: #0277ff;
+    border-radius: 8px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

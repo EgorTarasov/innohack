@@ -60,8 +60,8 @@ export class RootStore {
             ticketId,
             body
         ).finally(() => {
-            this.getTickets();
-            this.getTicketsByUserRole(12);
+            // this.getTickets();
+            // this.getTicketsByUserRole(12);
         });
 
         return response;

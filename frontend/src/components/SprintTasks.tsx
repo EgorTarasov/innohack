@@ -3,6 +3,7 @@ import { Sprint } from '../api/models';
 import BacklogTicket from './BacklogTicket';
 import { useState } from 'react';
 import { SegmentedValue } from 'antd/es/segmented';
+import SprintTimeline from './SprintTimeline';
 
 type Props = {
     sprint: Sprint | null;
@@ -40,8 +41,8 @@ const SprintTasks = ({ sprint }: Props) => {
                                 </Typography.Title>
                             </Row>
 
-                            {sprint.users.map((user) => (
-                                <Row style={{ marginTop: 30 }}>
+                            {sprint.users.map((user, index) => (
+                                <Row key={index} style={{ marginTop: 30 }}>
                                     <Col span={24}>
                                         <Row>
                                             <Typography.Title level={5}>
@@ -51,8 +52,8 @@ const SprintTasks = ({ sprint }: Props) => {
                                         </Row>
 
                                         <div>
-                                            {user.tickets.map((ticket) => (
-                                                <BacklogTicket ticket={ticket} />
+                                            {user.tickets.map((ticket, index) => (
+                                                <BacklogTicket key={index} ticket={ticket} />
                                             ))}
                                         </div>
                                     </Col>
@@ -61,7 +62,9 @@ const SprintTasks = ({ sprint }: Props) => {
                         </>
                     )}
 
-                    {segmentedValue === 'Таймлайн' && 'тайлайн'}
+                    <div style={{ marginTop: 30 }}>
+                        {segmentedValue === 'Таймлайн' && <SprintTimeline sprint={sprint} />}
+                    </div>
                 </>
             )}
         </>

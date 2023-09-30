@@ -29,6 +29,32 @@ const sprint: Sprint = {
                     durations: [1, 2, 4],
                     priority: 1,
                 },
+                {
+                    id: 42,
+                    sprint_id: 1,
+                    title: 'Ticket 2 Title',
+                    description: 'Ticket 2 Description',
+                    reporter_id: 2,
+                    assignee_id: 3,
+                    due_date: '2022-01-02T00:00:00',
+                    roles: { role_id: 13, label: 'Frontend' },
+                    level: { level_id: 9, label: 'Senior' },
+                    durations: [1, 2, 4],
+                    priority: 1,
+                },
+                {
+                    id: 42,
+                    sprint_id: 1,
+                    title: 'Ticket 2 Title',
+                    description: 'Ticket 2 Description',
+                    reporter_id: 2,
+                    assignee_id: 3,
+                    due_date: '2022-01-02T00:00:00',
+                    roles: { role_id: 13, label: 'Frontend' },
+                    level: { level_id: 9, label: 'Senior' },
+                    durations: [1, 2, 4],
+                    priority: 1,
+                },
             ],
         },
         {
@@ -114,7 +140,7 @@ class TicketApiService {
     }
 
     public async createSprint(body: CreateSprintBody): Promise<Sprint> {
-        return sprint;
+        // return sprint;
 
         const response = await axios.post<Sprint>(`${API_URL}/sprint`, body, {
             headers: authHeader(),
@@ -134,26 +160,26 @@ class TicketApiService {
     }
 
     public async getAllUsers(): Promise<Worker[]> {
-        return [
-            {
-                id: 1,
-                email: 'email',
-                username: 'username',
-                is_active: true,
-                is_superuser: true,
-                created_at: '2021-01-01',
-                updated_at: '2021-01-01',
-            },
-            {
-                id: 2,
-                email: 'email2',
-                username: 'username2',
-                is_active: true,
-                is_superuser: true,
-                created_at: '2021-01-01',
-                updated_at: '2021-01-01',
-            },
-        ];
+        // return [
+        //     {
+        //         id: 1,
+        //         email: 'email',
+        //         username: 'username',
+        //         is_active: true,
+        //         is_superuser: true,
+        //         created_at: '2021-01-01',
+        //         updated_at: '2021-01-01',
+        //     },
+        //     {
+        //         id: 2,
+        //         email: 'email2',
+        //         username: 'username2',
+        //         is_active: true,
+        //         is_superuser: true,
+        //         created_at: '2021-01-01',
+        //         updated_at: '2021-01-01',
+        //     },
+        // ];
 
         const response = await axios.get<Worker[]>(`${API_URL}/user/all`, {
             headers: authHeader(),

@@ -1,4 +1,4 @@
-import { PlusSquareOutlined } from '@ant-design/icons';
+import { EditOutlined, ExportOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import { Button, Col, Form, Input, InputNumber, Modal, Row, Select, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { useStores } from '../hooks/useStores';
@@ -161,6 +161,21 @@ const Sprint = observer(() => {
             </Row>
 
             <SprintTasks sprint={rootStore.sprint} />
+
+            <Row>
+                <Button type='primary' style={{ marginTop: 30 }} icon={<ExportOutlined />}>
+                    Экспортировать
+                </Button>
+
+                <Button
+                    className='button_secondary'
+                    type='primary'
+                    style={{ marginTop: 30, marginLeft: 10 }}
+                    icon={<EditOutlined />}
+                >
+                    Редактировать спринт
+                </Button>
+            </Row>
         </>
     );
 });
