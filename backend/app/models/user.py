@@ -15,10 +15,8 @@ class User(BaseSqlModel):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     is_superuser: Mapped[bool] = mapped_column(Boolean, default=False)
 
-    created_tickets = relationship("Ticket", foreign_keys="Ticket.reporter_id", backref="reporter")
-    assigned_tickets = relationship("Ticket", foreign_keys="Ticket.assignee_id", backref="assignee")
-
-    backlogged_tickets = relationship("Ticket", foreign_keys="UserTicket.user_id", backref="user")
+    created_tickets = relationship("Ticket", primaryjoin="User.id==Ticket.reporter_id")
+    assigned_tickets = relationship("Ticket", primaryjoin="User.id==Ticket.assignee_id")
 
     def __repr__(self):
         return f"<User {self.email}>"
@@ -26,13 +24,15 @@ class User(BaseSqlModel):
 
 class UserCreate(BaseModel):
     # define extra schema for UserCreate with example
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "email": "test@test.com",
-            "username": "test",
-            "password": "test"
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "email": "test@test.com",
+                "username": "test",
+                "password": "test",
+            }
         }
-    })
+    )
 
     email: str
     username: str
@@ -40,12 +40,9 @@ class UserCreate(BaseModel):
 
 
 class UserLogin(BaseModel):
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "email": "test@test.com",
-            "password": "test"
-        }
-    })
+    model_config = ConfigDict(
+        json_schema_extra={"example": {"email": "test@test.com", "password": "test"}}
+    )
 
     email: str
     password: str

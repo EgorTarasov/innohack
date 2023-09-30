@@ -13,12 +13,12 @@ class Ticket(BaseSqlModel):
     title: Mapped[str] = mapped_column(String, unique=True, index=True)
     description: Mapped[str] = mapped_column(String, unique=True, index=True)
     reporter_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
-    assignee_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=True)
+    assignee_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("users.id"), nullable=True
+    )
     due_date: Mapped[datetime] = mapped_column(DateTime)
     duration: Mapped[int] = mapped_column(Integer)
 
-    reporter = relationship("User", foreign_keys=[reporter_id], backref="created_tickets")
-    assignee = relationship("User", foreign_keys=[assignee_id], backref="assigned_tickets")
 
     def __repr__(self):
         return f"<Ticket {self.title}>"
@@ -26,16 +26,18 @@ class Ticket(BaseSqlModel):
 
 class TicketCreate(BaseModel):
     # define extra schema for TicketCreate with example
-    model_config = ConfigDict(json_schema_extra={
-        "example": {
-            "title": "test",
-            "description": "test",
-            "reporter_id": 1,
-            "assignee_id": 2,
-            "due_date": "2021-01-01",
-            "duration": 1
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "title": "test",
+                "description": "test",
+                "reporter_id": 1,
+                "assignee_id": 2,
+                "due_date": "2021-01-01",
+                "duration": 1,
+            }
         }
-    })
+    )
 
     title: str = Field(...)
     description: str = Field(...)
@@ -46,20 +48,21 @@ class TicketCreate(BaseModel):
 
 
 class TicketDto(BaseModel):
-    model_config = ConfigDict(from_attributes=True,
-                              json_schema_extra={
-                                    "example": {
-                                        "id": 1,
-                                        "sprint_id": 1,
-                                        "title": "test",
-                                        "description": "test",
-                                        "reporter_id": 1,
-                                        "assignee_id": 2,
-                                        "due_date": "2021-01-01",
-                                        "duration": 1
-                                    }
-                                }
-                              )
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "sprint_id": 1,
+                "title": "test",
+                "description": "test",
+                "reporter_id": 1,
+                "assignee_id": 2,
+                "due_date": "2021-01-01",
+                "duration": 1,
+            }
+        },
+    )
 
     id: int = Field(..., alias="id")
     sprint_id: int | None = Field(None, alias="sprint_id")
@@ -80,8 +83,15 @@ class UserTicket(BaseSqlModel):
     duration: Mapped[int] = mapped_column(Integer, default=None, nullable=True)
     reviewed: Mapped[bool] = mapped_column(Boolean, default=False)
 
-    user = relationship("User", foreign_keys=[user_id], backref="backlogged_tickets")
-    ticket = relationship("Ticket", foreign_keys=[ticket_id], backref="backlogged_users")
+    user = relationship(
+        "User",
+        foreign_keys=[user_id],
+        backref="backlogged_tickets",
+        primaryjoin="User.id==UserTicket.user_id",
+    )
+    ticket = relationship(
+        "Ticket", foreign_keys=[ticket_id], backref="backlogged_users"
+    )
 
 
 class UserTicketCreate(BaseModel):
@@ -89,17 +99,18 @@ class UserTicketCreate(BaseModel):
 
 
 class UserTicketDto(BaseModel):
-    model_config = ConfigDict(from_attributes=True,
-                              json_schema_extra={
-                                    "example": {
-                                        "id": 1,
-                                        "user_id": 1,
-                                        "ticket_id": 1,
-                                        "duration": None,
-                                        "revieved": True
-                                    }
-                                }
-                              )
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "user_id": 1,
+                "ticket_id": 1,
+                "duration": None,
+                "revieved": True,
+            }
+        },
+    )
 
     id: int = Field(..., alias="id")
     user_id: int = Field(..., alias="user_id")

@@ -33,12 +33,12 @@ def create(db: Session, user: models.UserCreate) -> models.Token:
         )
     except Exception as e:
         logging.error(f"Error create user: {e}")
+        print(e)
         raise Exception(f"Error create user: {e}")
 
 
 def authenticate(db: Session, payload: models.UserLogin) -> models.Token:
-    """Авторизация пользователя
-    """
+    """Авторизация пользователя"""
     user = crud.get_user_by_email(db, payload.email)
     if utils.auth.verify_password(payload.password, user.hashed_password):
         return models.Token(
@@ -76,3 +76,8 @@ async def get_current_user(db: Session, cookie_token: str) -> models.UserDto:
         logging.debug(f"User no found")
         raise credentials_exception
     return user
+
+
+async def get_by_email(db: Session, email: str) -> models.User:
+    """Получение пользователя по email"""
+    return crud.get_user_by_email(db, email)

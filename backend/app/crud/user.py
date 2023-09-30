@@ -6,6 +6,7 @@ def create_user(db: Session, payload: models.UserCreate) -> models.User:
     """Создание пользователя"""
     db_user = models.User(
         email=payload.email,
+        username=payload.username,
         hashed_password=payload.password,
         is_active=True,
         is_superuser=False,

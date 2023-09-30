@@ -40,11 +40,11 @@ async def create_user(
     """
     Create a new user.
     """
-    try:
-        return service.user.create(db, user)
-    except Exception as e:
-        logging.error(f"Error create user: {e}")
-        raise HTTPException(status_code=400, detail=f"User with email already exists")
+    # try:
+    return service.user.create(db, user)
+    # except Exception as e:
+    #     logging.error(f"Error create user: {e}")
+    #     raise HTTPException(status_code=400, detail=f"User with email already exists")
 
 
 @router.get(
