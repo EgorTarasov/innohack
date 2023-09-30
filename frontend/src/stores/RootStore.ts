@@ -52,4 +52,8 @@ export class RootStore {
 
         return tickets;
     }
+
+    public async changeTicketDuration(ticketId: number, body: { duration: number }): Promise<void> {
+        return TicketApiServiceInstanse.changeTicketDuration(ticketId, body);
+    }
 }
