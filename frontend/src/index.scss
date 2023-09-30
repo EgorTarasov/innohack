@@ -87,3 +87,30 @@
     align-items: center;
     justify-content: center;
 }
+
+.statistics {
+    border: 1px solid #0277ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    &__main {
+        flex-direction: column;
+        height: 150px;
+    }
+
+    &__secondary {
+        height: 110px;
+        gap: 20px;
+    }
+
+    &__title {
+        font-size: 50px;
+        color: #0277ff;
+        font-weight: 500;
+    }
+
+    &__value {
+        margin-bottom: 0 !important;
+    }
+}

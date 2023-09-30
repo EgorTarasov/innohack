@@ -160,27 +160,6 @@ class TicketApiService {
     }
 
     public async getAllUsers(): Promise<Worker[]> {
-        // return [
-        //     {
-        //         id: 1,
-        //         email: 'email',
-        //         username: 'username',
-        //         is_active: true,
-        //         is_superuser: true,
-        //         created_at: '2021-01-01',
-        //         updated_at: '2021-01-01',
-        //     },
-        //     {
-        //         id: 2,
-        //         email: 'email2',
-        //         username: 'username2',
-        //         is_active: true,
-        //         is_superuser: true,
-        //         created_at: '2021-01-01',
-        //         updated_at: '2021-01-01',
-        //     },
-        // ];
-
         const response = await axios.get<Worker[]>(`${API_URL}/user/all`, {
             headers: authHeader(),
         });

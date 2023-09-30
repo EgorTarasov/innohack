@@ -8,6 +8,7 @@ import Sprint from '../components/Sprint';
 import { Link } from 'react-router-dom';
 import { LogoutOutlined } from '@ant-design/icons';
 import AuthService from '../api/AuthService';
+import Statistics from '../components/Statistics';
 
 const items: TabsProps['items'] = [
     {
@@ -31,7 +32,7 @@ const sprintItems: TabsProps['items'] = [
     {
         key: '2',
         label: 'Статистика',
-        children: 'Статистика',
+        children: <Statistics />,
     },
 ];
 
