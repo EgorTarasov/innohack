@@ -47,6 +47,22 @@ async def create_user(
         raise HTTPException(status_code=400, detail=f"User with email already exists")
 
 
+@router.get(
+    "/me",
+    response_model=models.UserDto,
+    status_code=status.HTTP_200_OK,
+)
+async def get_user(
+    request: Request,
+    response: Response,
+    user: models.User = Depends(current_user),
+):
+    """
+    Get current user.
+    """
+    return models.UserDto.model_validate(user)
+
+
 @router.post(
     "/login",
     response_model=models.Token,

@@ -19,7 +19,7 @@ def get_db():
 async def current_user(
     db: Session = Depends(get_db),
     access_token: str | None = Depends(utils.auth.oauth2_scheme),
-) -> models.User | None:
+) -> models.User:
     logging.debug(id(db))
     if not access_token:
         raise HTTPException(

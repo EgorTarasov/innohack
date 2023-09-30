@@ -9,10 +9,16 @@ class User(BaseSqlModel):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    username: Mapped[str] = mapped_column(String, unique=True, index=True)
     email: Mapped[str] = mapped_column(String, unique=True, index=True)
     hashed_password: Mapped[str] = mapped_column(String)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     is_superuser: Mapped[bool] = mapped_column(Boolean, default=False)
+
+    created_tickets = relationship("Ticket", foreign_keys="Ticket.reporter_id", backref="reporter")
+    assigned_tickets = relationship("Ticket", foreign_keys="Ticket.assignee_id", backref="assignee")
+
+    backlogged_tickets = relationship("Ticket", foreign_keys="UserTicket.user_id", backref="user")
 
     def __repr__(self):
         return f"<User {self.email}>"

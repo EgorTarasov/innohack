@@ -33,6 +33,7 @@ def create_app() -> FastAPI:
     )
 
     _app.include_router(routers.user.router)
+    _app.include_router(routers.ticket.router)
 
     return _app
 
