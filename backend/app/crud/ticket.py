@@ -44,11 +44,7 @@ def get(db: Session, id: int) -> models.Ticket:
 
 
 def get_all(db: Session) -> list[models.Ticket]:
-    data = db.query(models.Ticket).first()
-    print(data)
-    if data:
-        return [data]
-    return []
+    return db.query(models.Ticket).all()
 
 
 def get_backlog(
