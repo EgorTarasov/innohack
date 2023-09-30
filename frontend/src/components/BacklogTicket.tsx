@@ -1,6 +1,7 @@
 import { Card, Col, Row, Tag, Typography } from 'antd';
 import { Ticket } from '../api/models';
 import { FireFilled } from '@ant-design/icons';
+import Priority from './Priority';
 
 type Props = {
     ticket: Ticket;
@@ -38,6 +39,10 @@ const BacklogTicket = ({ ticket }: Props) => {
                 </Col>
             </Row>
 
+            <Row style={{ marginBottom: 10 }}>
+                <Priority priorityId={ticket.priority} />
+            </Row>
+
             <Row align={'middle'}>
                 <FireFilled style={{ color: '#0A0A0A' }} />
 
@@ -53,7 +58,7 @@ const BacklogTicket = ({ ticket }: Props) => {
                         {ticket.durations?.length && ticket.durations[0]}-
                         {ticket.durations.length && ticket.durations[ticket.durations.length - 1]}{' '}
                     </span>
-                    сторипонтов
+                    story points
                 </Typography.Paragraph>
             </Row>
         </Card>

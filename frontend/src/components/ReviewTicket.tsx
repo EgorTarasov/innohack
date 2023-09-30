@@ -3,6 +3,7 @@ import { Button, Card, Col, InputNumber, Row, Space, Tag, Typography, message } 
 import { Ticket } from '../api/models';
 import { useStores } from '../hooks/useStores';
 import { useState } from 'react';
+import Priority from './Priority';
 
 type Props = {
     ticket: Ticket;
@@ -12,6 +13,19 @@ const ReviewTicket = ({ ticket }: Props) => {
     const [messageApi, contextHolder] = message.useMessage();
     const { rootStore } = useStores();
     const [isDurationLoading, setIsDurationLoading] = useState(false);
+
+    const onDurationChange = async () => {
+        setIsDurationLoading(true);
+        rootStore
+            .changeTicketDuration(ticket.id, { duration: 1 })
+            .then(() => {
+                messageApi.success('Время изменено');
+            })
+            .catch(() => {
+                messageApi.error('Ошибка изменения времени');
+            })
+            .finally(() => setIsDurationLoading(false));
+    };
 
     return (
         <>
@@ -46,6 +60,10 @@ const ReviewTicket = ({ ticket }: Props) => {
                     </Col>
                 </Row>
 
+                <Row style={{ marginBottom: 10 }}>
+                    <Priority priorityId={ticket.priority} />
+                </Row>
+
                 <Row align={'middle'}>
                     <FireFilled style={{ color: '#0A0A0A' }} />
 
@@ -61,21 +79,10 @@ const ReviewTicket = ({ ticket }: Props) => {
                                 style={{ width: 160 }}
                                 min={1}
                                 max={10}
-                                placeholder='Время выполнения в сторипоинтах'
+                                placeholder='Время выполнения в story points'
                             />
                             <Button
-                                onClick={async () => {
-                                    setIsDurationLoading(true);
-                                    rootStore
-                                        .changeTicketDuration(ticket.id, { duration: 1 })
-                                        .then(() => {
-                                            messageApi.success('Время изменено');
-                                        })
-                                        .catch(() => {
-                                            messageApi.error('Ошибка изменения времени');
-                                        })
-                                        .finally(() => setIsDurationLoading(false));
-                                }}
+                                onClick={onDurationChange}
                                 type='primary'
                                 loading={isDurationLoading}
                             >

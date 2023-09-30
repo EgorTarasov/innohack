@@ -33,4 +33,22 @@
         background-color: rgba(255, 87, 150, 0.2) !important;
         color: #ff5796 !important;
     }
+
+    &__high-priority {
+        background-color: transparent !important;
+        color: #ff5796 !important;
+        border: 1px solid rgba(255, 87, 150, 0.4) !important;
+    }
+
+    &__medium-priority {
+        background-color: transparent !important;
+        color: #ff9f1a !important;
+        border: 1px solid rgba(255, 159, 26, 0.4) !important;
+    }
+
+    &__low-priority {
+        background-color: transparent !important;
+        color: #ffda1a !important;
+        border: 1px solid rgba(255, 218, 26, 0.4) !important;
+    }
 }
