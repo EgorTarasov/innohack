@@ -6,12 +6,14 @@ export class RootStore {
     public trigger: boolean = false;
     public tickets: Ticket[] = [];
     public ticketsByUserRole: Ticket[] = [];
+    public sprint: Sprint | null = null;
 
     constructor() {
         makeAutoObservable(this, {
             trigger: observable,
             tickets: observable,
             ticketsByUserRole: observable,
+            sprint: observable,
         });
     }
 
@@ -71,11 +73,25 @@ export class RootStore {
             this.getTicketsByUserRole(12);
         });
 
+        runInAction(() => {
+            this.sprint = response;
+        });
+
         return response;
     }
 
     public async getAllUsers() {
         const response = await TicketApiServiceInstanse.getAllUsers();
+
+        return response;
+    }
+
+    public async getLatestSprint(): Promise<Sprint> {
+        const response = await TicketApiServiceInstanse.getLatestSprint();
+
+        runInAction(() => {
+            this.sprint = response;
+        });
 
         return response;
     }

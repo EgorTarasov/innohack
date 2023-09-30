@@ -9,7 +9,7 @@ type Props = {
 
 const BacklogTicket = ({ ticket }: Props) => {
     return (
-        <Card style={{ marginTop: 20 }} className='ticket'>
+        <Card className='ticket'>
             <Row justify={'space-between'}>
                 <Col span={16}>
                     <Typography.Title className='title-5' level={5}>

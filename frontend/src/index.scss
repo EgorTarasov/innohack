@@ -70,3 +70,10 @@
         margin-top: 10px;
     }
 }
+
+.ticket {
+    margin-top: 20px;
+    &:first-child {
+        margin-top: 0;
+    }
+}

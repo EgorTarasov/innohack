@@ -3,8 +3,10 @@ import { Button, Col, Form, Input, InputNumber, Modal, Row, Select, Typography }
 import { useEffect, useState } from 'react';
 import { useStores } from '../hooks/useStores';
 import { CreateSprintBody, Worker } from '../api/models';
+import { observer } from 'mobx-react-lite';
+import SprintTasks from './SprintTasks';
 
-const Sprint = () => {
+const Sprint = observer(() => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const { rootStore } = useStores();
@@ -16,7 +18,13 @@ const Sprint = () => {
             const fetchedUsers = await rootStore.getAllUsers();
             setUsers(fetchedUsers);
         }
+
+        async function fetchSprint() {
+            await rootStore.getLatestSprint();
+        }
+
         fetchUsers();
+        fetchSprint();
     }, [rootStore]);
 
     const showModal = () => {
@@ -151,8 +159,10 @@ const Sprint = () => {
                     </Modal>
                 </Col>
             </Row>
+
+            <SprintTasks sprint={rootStore.sprint} />
         </>
     );
-};
+});
 
 export default Sprint;
