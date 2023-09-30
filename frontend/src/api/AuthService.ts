@@ -6,7 +6,7 @@ class AuthService {
     public async login(body: LoginBody) {
         const response = await axios.post<RegisterResponse>(`${API_URL}/user/login`, body);
 
-        if (response.data.bearer_token) {
+        if (response.data.access_token) {
             localStorage.setItem('user', JSON.stringify(response.data));
         }
 
@@ -14,9 +14,9 @@ class AuthService {
     }
 
     public async register(body: CreateUserBody) {
-        const response = await axios.post<RegisterResponse>(`${API_URL}/user/register`, body);
+        const response = await axios.post<RegisterResponse>(`${API_URL}/user`, body);
 
-        if (response.data.bearer_token) {
+        if (response.data.access_token) {
             localStorage.setItem('user', JSON.stringify(response.data));
         }
 

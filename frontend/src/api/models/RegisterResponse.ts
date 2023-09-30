@@ -1,6 +1,7 @@
-import { User } from '../../models/User';
+import { User } from '.';
 
 export interface RegisterResponse {
-    bearer_token: string;
+    token_type: string;
+    access_token: string;
     user: User;
 }

@@ -25,9 +25,17 @@ export const router = createBrowserRouter([
         ),
     },
     {
+        path: '/home',
+        element: (
+            <ProtectedRoute isSignedIn={AuthService.isAuthorized()}>
+                <Home />
+            </ProtectedRoute>
+        ),
+    },
+    {
         path: '*',
         element: (
-            <ProtectedRoute isSignedIn={false}>
+            <ProtectedRoute isSignedIn={AuthService.isAuthorized()}>
                 <Home />
             </ProtectedRoute>
         ),

@@ -73,21 +73,6 @@ const SignUp = () => {
                             />
                         </Form.Item>
                         <Form.Item
-                            name='name'
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Пожалуйста, введите название организации',
-                                },
-                            ]}
-                        >
-                            <Input
-                                size='large'
-                                prefix={<MailOutlined className='site-form-item-icon' />}
-                                placeholder='Название организации'
-                            />
-                        </Form.Item>
-                        <Form.Item
                             name='password'
                             rules={[
                                 {

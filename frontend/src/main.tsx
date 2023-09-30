@@ -10,7 +10,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
         <ConfigProvider
             theme={{
-                token: {},
+                token: {
+                    colorPrimary: '#0277FF',
+                },
             }}
         >
             <RouterProvider router={router} />
