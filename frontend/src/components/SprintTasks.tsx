@@ -1,24 +1,33 @@
-import { Col, Row, Segmented, Typography } from 'antd';
-import { Sprint } from '../api/models';
+import { Button, Col, Row, Segmented, Typography } from 'antd';
+import { SprintI } from '../api/models';
 import BacklogTicket from './BacklogTicket';
 import { useState } from 'react';
 import { SegmentedValue } from 'antd/es/segmented';
 import SprintTimeline from './SprintTimeline';
+import { EditOutlined } from '@ant-design/icons';
+import { useStores } from '../hooks/useStores';
+import { observer } from 'mobx-react-lite';
 
 type Props = {
-    sprint: Sprint | null;
+    sprint: SprintI | null;
 };
 
-const SprintTasks = ({ sprint }: Props) => {
+const SprintTasks = observer(({ sprint }: Props) => {
     const [segmentedValue, setSegmentedValue] = useState('Карточки задач');
+    const { rootStore } = useStores();
 
     const onSegmentedChange = (value: SegmentedValue) => {
         setSegmentedValue(value as string);
     };
 
+    const onEditClick = (index: number) => {
+        rootStore.setActiveSprintUserIndex(index);
+        rootStore.setIsAddTicketAvailable(true);
+    };
+
     return (
         <>
-            {sprint && (
+            {rootStore.sprint && (
                 <>
                     <Row>
                         <Segmented
@@ -37,18 +46,28 @@ const SprintTasks = ({ sprint }: Props) => {
                                     className='title-5'
                                     level={5}
                                 >
-                                    Цель спринта: {sprint.target}
+                                    Цель спринта: {rootStore.sprint.target}
                                 </Typography.Title>
                             </Row>
 
-                            {sprint.users.map((user, index) => (
+                            {rootStore.sprint.users.map((user, index) => (
                                 <Row key={index} style={{ marginTop: 30 }}>
                                     <Col span={24}>
-                                        <Row>
-                                            <Typography.Title level={5}>
-                                                {user.user_data.username}: {user.user_data.hours}{' '}
-                                                часов
-                                            </Typography.Title>
+                                        <Row justify={'space-between'} align={'middle'}>
+                                            <Col>
+                                                <Typography.Title level={5}>
+                                                    {user.user_data.username}:{' '}
+                                                    {user.user_data.hours} часов
+                                                </Typography.Title>
+                                            </Col>
+
+                                            <Col>
+                                                <Button
+                                                    style={{ marginBottom: 5 }}
+                                                    icon={<EditOutlined />}
+                                                    onClick={() => onEditClick(index)}
+                                                ></Button>
+                                            </Col>
                                         </Row>
 
                                         <div>
@@ -69,6 +88,6 @@ const SprintTasks = ({ sprint }: Props) => {
             )}
         </>
     );
-};
+});
 
 export default SprintTasks;

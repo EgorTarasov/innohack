@@ -1,17 +1,30 @@
 import { EditOutlined, ExportOutlined, PlusSquareOutlined } from '@ant-design/icons';
-import { Button, Col, Form, Input, InputNumber, Modal, Row, Select, Typography } from 'antd';
+import {
+    Button,
+    Col,
+    Form,
+    Input,
+    InputNumber,
+    Modal,
+    Row,
+    Select,
+    Typography,
+    message,
+} from 'antd';
 import { useEffect, useState } from 'react';
 import { useStores } from '../hooks/useStores';
-import { CreateSprintBody, Worker } from '../api/models';
+import { CreateSprintBody, SprintI, Worker } from '../api/models';
 import { observer } from 'mobx-react-lite';
 import SprintTasks from './SprintTasks';
 
 const Sprint = observer(() => {
+    const [messageApi, contextHolder] = message.useMessage();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const { rootStore } = useStores();
     const [form] = Form.useForm();
     const [users, setUsers] = useState<Worker[]>([]);
+    const [isSprintSaving, setIsSprintSaving] = useState(false);
 
     useEffect(() => {
         async function fetchUsers() {
@@ -69,6 +82,7 @@ const Sprint = observer(() => {
 
     return (
         <>
+            {contextHolder}
             <Row>
                 <Col span={24}>
                     <Button
@@ -167,14 +181,29 @@ const Sprint = observer(() => {
                     Экспортировать
                 </Button>
 
-                <Button
-                    className='button_secondary'
-                    type='primary'
-                    style={{ marginTop: 30, marginLeft: 10 }}
-                    icon={<EditOutlined />}
-                >
-                    Редактировать спринт
-                </Button>
+                {rootStore.sprint && (
+                    <Button
+                        className='button_secondary'
+                        type='primary'
+                        style={{ marginTop: 30, marginLeft: 10 }}
+                        icon={<EditOutlined />}
+                        loading={isSprintSaving}
+                        onClick={() => {
+                            setIsSprintSaving(true);
+                            rootStore
+                                .updateSprint(rootStore.sprint as SprintI)
+                                .then(() => {
+                                    messageApi.success('Спринт сохранен');
+                                })
+                                .catch(() => {
+                                    messageApi.error('Ошибка сохранения спринта');
+                                })
+                                .finally(() => setIsSprintSaving(false));
+                        }}
+                    >
+                        Сохранить спринт
+                    </Button>
+                )}
             </Row>
         </>
     );

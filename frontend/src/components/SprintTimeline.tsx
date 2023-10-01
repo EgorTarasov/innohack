@@ -1,8 +1,8 @@
 import { Col, Row, Tooltip } from 'antd';
-import { Sprint } from '../api/models';
+import { SprintI } from '../api/models';
 
 type Props = {
-    sprint: Sprint | null;
+    sprint: SprintI | null;
 };
 
 const SprintTimeline = ({ sprint }: Props) => {

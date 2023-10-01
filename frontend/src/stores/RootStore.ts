@@ -1,12 +1,15 @@
 import { makeAutoObservable, observable, runInAction } from 'mobx';
-import { CreateSprintBody, Sprint, Ticket } from '../api/models';
+import { CreateSprintBody, SprintI, Ticket } from '../api/models';
 import { TicketApiServiceInstanse } from '../api/TicketApiService';
 
 export class RootStore {
     public trigger: boolean = false;
     public tickets: Ticket[] = [];
     public ticketsByUserRole: Ticket[] = [];
-    public sprint: Sprint | null = null;
+    public sprint: SprintI | null = null;
+    public isDeleteTicketAvailable: boolean = false;
+    public isAddTicketAvailable: boolean = false;
+    public activeSprintUserIndex: number = 0;
 
     constructor() {
         makeAutoObservable(this, {
@@ -14,6 +17,9 @@ export class RootStore {
             tickets: observable,
             ticketsByUserRole: observable,
             sprint: observable,
+            isAddTicketAvailable: observable,
+            isDeleteTicketAvailable: observable,
+            activeSprintUserIndex: observable,
         });
     }
 
@@ -32,6 +38,35 @@ export class RootStore {
     public setTicketsByUserRole(tickets: Ticket[]) {
         runInAction(() => {
             this.ticketsByUserRole = tickets;
+        });
+    }
+
+    public setActiveSprintUserIndex(activeSprintUserIndex: number) {
+        runInAction(() => {
+            this.activeSprintUserIndex = activeSprintUserIndex;
+        });
+    }
+
+    public setIsDeleteTicketAvailable(isDeleteTicketAvailable: boolean) {
+        runInAction(() => {
+            this.isDeleteTicketAvailable = isDeleteTicketAvailable;
+        });
+    }
+
+    public setIsAddTicketAvailable(isAddTicketAvailable: boolean) {
+        runInAction(() => {
+            this.isAddTicketAvailable = isAddTicketAvailable;
+        });
+    }
+
+    public addTicketToSprintByUser(sprintUserIndex: number, ticketIndex: number, ticket: Ticket) {
+        console.log(sprintUserIndex, ticketIndex);
+
+        runInAction(() => {
+            this.sprint?.users[sprintUserIndex].tickets.push(ticket);
+            // remove ticket from tickets
+            this.tickets.splice(ticketIndex, 1);
+            console.log(this.tickets);
         });
     }
 
@@ -67,7 +102,7 @@ export class RootStore {
         return response;
     }
 
-    public async createSprint(body: CreateSprintBody): Promise<Sprint> {
+    public async createSprint(body: CreateSprintBody): Promise<SprintI> {
         const response = await TicketApiServiceInstanse.createSprint(body).finally(() => {
             this.getTickets();
             this.getTicketsByUserRole(12);
@@ -86,12 +121,18 @@ export class RootStore {
         return response;
     }
 
-    public async getLatestSprint(): Promise<Sprint> {
+    public async getLatestSprint(): Promise<SprintI> {
         const response = await TicketApiServiceInstanse.getLatestSprint();
 
         runInAction(() => {
             this.sprint = response;
         });
+
+        return response;
+    }
+
+    public async updateSprint(body: SprintI): Promise<SprintI> {
+        const response = await TicketApiServiceInstanse.updateSprint(body);
 
         return response;
     }

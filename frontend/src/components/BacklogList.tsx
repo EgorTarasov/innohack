@@ -7,8 +7,13 @@ const BacklogList = observer(() => {
 
     return (
         <div>
-            {rootStore.tickets.map((ticket) => (
-                <BacklogTicket key={ticket.id} ticket={ticket} />
+            {rootStore.tickets.map((ticket, index) => (
+                <BacklogTicket
+                    key={ticket.id}
+                    ticket={ticket}
+                    isAddAvailable={rootStore.isAddTicketAvailable}
+                    ticketIndex={index}
+                />
             ))}
         </div>
     );

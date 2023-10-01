@@ -1,6 +1,6 @@
 import { Ticket } from '.';
 
-export interface Sprint {
+export interface SprintI {
     id: number;
     duration: number;
     target: string;
