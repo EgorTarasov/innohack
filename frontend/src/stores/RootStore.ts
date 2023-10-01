@@ -105,7 +105,7 @@ export class RootStore {
     public async createSprint(body: CreateSprintBody): Promise<SprintI> {
         const response = await TicketApiServiceInstanse.createSprint(body).finally(() => {
             this.getTickets();
-            this.getTicketsByUserRole(12);
+            this.getTicketsByUserRole(1);
         });
 
         runInAction(() => {
@@ -133,6 +133,15 @@ export class RootStore {
 
     public async updateSprint(body: SprintI): Promise<SprintI> {
         const response = await TicketApiServiceInstanse.updateSprint(body);
+
+        return response;
+    }
+
+    public async importTickets(): Promise<void> {
+        const response = await TicketApiServiceInstanse.importTickets().finally(() => {
+            this.getTickets();
+            this.getTicketsByUserRole(1);
+        });
 
         return response;
     }
