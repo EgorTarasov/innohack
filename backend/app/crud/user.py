@@ -32,4 +32,9 @@ def get_user_by_email(db: Session, email: str) -> models.User:
 
 def get_all(db: Session) -> list[models.User]:
     """Получение всех пользователей"""
+    users = (
+        db.query(models.User)
+        .filter(models.User.id.in_(db.query(models.TicketReview.user_id.distinct())))
+        .all()
+    )
     return db.query(models.User).filter(models.User.assigned_tickets).all()
