@@ -1,13 +1,12 @@
+import logging
+
 from fastapi import HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-
-
 from sqlalchemy.orm import Session
-from .. import models, crud, utils
 
+from .. import crud, models, utils
 from ..config import config
-import logging
 
 
 def create(db: Session, user: models.UserCreate) -> models.Token:

@@ -1,6 +1,7 @@
 from app import schemas
 from app.db import BaseSqlModel
 from pydantic import BaseModel, ConfigDict, Field
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -12,6 +13,7 @@ class Sprint(BaseSqlModel):
     duration: Mapped[int] = mapped_column(Integer)  # длительность спринта в неделях
     target: Mapped[str] = mapped_column(String)
     is_finished: Mapped[bool] = mapped_column(Boolean, default=False)
+    value: Mapped[dict] = mapped_column(JSONB)
 
 
 class SprintDto(BaseModel):
@@ -26,17 +28,19 @@ class SprintDto(BaseModel):
                 "users": [
                     {
                         "user_data": {"id": 2, "username": "Иван Иванов", "hours": 20},
-                        "tickets": {
-                            "id": 42,
-                            "sprint_id": None,
-                            "title": "Ticket 2 Title",
-                            "description": "Ticket 2 Description",
-                            "reporter_id": 2,
-                            "assignee_id": 3,
-                            "due_date": "2022-01-02T00:00:00",
-                            "roles": {"id": 13, "label": "Frontend"},
-                            "level": {"id": 9, "label": "Senior"},
-                        },
+                        "tickets": [
+                            {
+                                "id": 42,
+                                "sprint_id": None,
+                                "title": "Ticket 2 Title",
+                                "description": "Ticket 2 Description",
+                                "reporter_id": 2,
+                                "assignee_id": 3,
+                                "due_date": "2022-01-02T00:00:00",
+                                "roles": {"id": 13, "label": "Frontend"},
+                                "level": {"id": 9, "label": "Senior"},
+                            }
+                        ],
                     }
                 ],
             }

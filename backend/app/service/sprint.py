@@ -88,3 +88,8 @@ def assemble_sprint(
     db_sprint.target = sprint_create.target
 
     return sprint
+
+
+def update(db: Session, payload: models.SprintDto) -> models.SprintDto:
+    crud.sprint.update(db, payload.id, payload)
+    return payload
