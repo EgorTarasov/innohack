@@ -48,6 +48,17 @@ const SignUp = () => {
                                     required: true,
                                     message: 'Пожалуйста, введите имя пользователя',
                                 },
+                                {
+                                    validator: (_, value) => {
+                                        const words = value?.trim().split(/\s+/);
+                                        if (words && words.length === 3) {
+                                            return Promise.resolve();
+                                        }
+                                        return Promise.reject(
+                                            'Имя пользователя должно содержать 3 слова'
+                                        );
+                                    },
+                                },
                             ]}
                         >
                             <Input
