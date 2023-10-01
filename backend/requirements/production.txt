@@ -9,4 +9,5 @@ python-jose
 passlib
 psycopg2
 jinja2
+openai
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
