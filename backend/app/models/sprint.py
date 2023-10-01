@@ -13,7 +13,7 @@ class Sprint(BaseSqlModel):
     duration: Mapped[int] = mapped_column(Integer)  # длительность спринта в неделях
     target: Mapped[str] = mapped_column(String)
     is_finished: Mapped[bool] = mapped_column(Boolean, default=False)
-    value: Mapped[dict] = mapped_column(JSONB)
+    value: Mapped[dict] = mapped_column(JSONB, default={})
 
 
 class SprintDto(BaseModel):

@@ -22,6 +22,7 @@ def update(db: Session, _id: int, payload: models.SprintDto) -> models.Sprint:
         raise Exception(f"Sprint {_id} not found")
 
     db_sprint.value = payload.model_dump_json()
+    db_sprint.is_finished = False
     db.commit()
     return db_sprint
 

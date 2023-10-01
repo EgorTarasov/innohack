@@ -54,6 +54,7 @@ def assemble_sprint(
     db_sprint = models.Sprint()
     db_sprint.duration = sprint_create.duration
     db_sprint.target = sprint_create.target
+    db_sprint.is_finished = False
     db.add(db_sprint)
     db.commit()
     db.refresh(db_sprint)
