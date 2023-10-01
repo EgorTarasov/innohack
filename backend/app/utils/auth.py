@@ -12,16 +12,18 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="user/login")
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    # return pwd_context.verify(plain_password, hashed_password)
+    return plain_password == hashed_password
 
 
 def get_password_hash(password: str) -> str:
-    hashed_password = pwd_context.hash(password)
+    # hashed_password = pwd_context.hash(password)
+    hashed_password = password
     return hashed_password
 
 
 def create_access_token(
-    data: dict[str, str | datetime], expires_delta: timedelta | None = None
+        data: dict[str, str | datetime], expires_delta: timedelta | None = None
 ) -> str:
     to_encode = data.copy()
     if expires_delta:
