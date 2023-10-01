@@ -182,6 +182,14 @@ class TicketApiService {
 
         return response.data;
     }
+
+    public async importTickets(): Promise<void> {
+        const response = await axios.get<void>(`${API_URL}/ticket/import`, {
+            headers: authHeader(),
+        });
+
+        return response.data;
+    }
 }
 
 export const TicketApiServiceInstanse = new TicketApiService();
