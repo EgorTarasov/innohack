@@ -1,1 +1,6 @@
 __pycache__/
+venv/ 
+.idea/
+.vscode/
+.env
+data/
