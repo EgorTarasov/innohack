@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 
 def create(
-        db: Session, ticket: models.TicketCreate, user: models.User
+    db: Session, ticket: models.TicketCreate, user: models.User
 ) -> schemas.TicketDto:
     """Создание задачи
 
@@ -78,7 +78,7 @@ def update(db: Session, payload: models.TicketCreate) -> schemas.TicketDto:
 
 
 def review(
-        db: Session, payload: models.TicketReviewCreate, user: models.User
+    db: Session, payload: models.TicketReviewCreate, user: models.User
 ) -> models.TicketReviewDto | None:
     """Создание ревью задачи
 
@@ -94,7 +94,7 @@ def review(
     return models.TicketReviewDto.model_validate(db_ticket_review)
 
 
-def upload_csv(db: Session, csv_reader: csv.DictReader) -> list[schemas.TicketDto]:
+def upload_csv(db: Session, csv_reader: csv.DictReader) -> list[models.Ticket]:
     """Загрузка задач из csv
 
     Args:
@@ -106,10 +106,10 @@ def upload_csv(db: Session, csv_reader: csv.DictReader) -> list[schemas.TicketDt
 
     tickets = utils.parsers.csv_reader_to_tickets(csv_reader)
     tickets = crud.ticket.bulk_create(db, tickets)
-    return utils.ticket.assemble_ticket_dtos(tickets)
+    return tickets
 
 
-def get_from_teamflame(db: Session, user: models.User) -> list[dict]:
+def get_from_teamflame(db: Session, user: models.User) -> list[models.Ticket]:
     """Получение задач по пользователю
 
     Args:
@@ -139,12 +139,14 @@ def get_from_teamflame(db: Session, user: models.User) -> list[dict]:
             ticket.priority = 3
         else:
             ticket.priority = 1
-        ticket.roles_id = 1
+        ticket.role_id = 1
         ticket.level_id = 2
 
         tickets.append(ticket)
 
     db.add_all(tickets)
     db.commit()
-
-    return
+    for ticket in tickets:
+        db.refresh(ticket)
+    
+    return tickets

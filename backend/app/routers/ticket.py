@@ -15,8 +15,20 @@ from typing import Annotated, Optional
 
 from app import models, schemas, service, utils
 from app.dependencies import current_user, get_db
-from fastapi import (APIRouter, Body, Depends, FastAPI, File, HTTPException,
-                     Path, Query, Request, Response, UploadFile, status)
+from fastapi import (
+    APIRouter,
+    Body,
+    Depends,
+    FastAPI,
+    File,
+    HTTPException,
+    Path,
+    Query,
+    Request,
+    Response,
+    UploadFile,
+    status,
+)
 from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/ticket", tags=["ticket"])
@@ -125,8 +137,18 @@ async def upload_csv(
 ):
 
     contents = await file.read()  # Read the contents of the file as bytes
-    decoded = contents.decode('utf-8')  # Decode the bytes to a string
-    reader = csv.DictReader(decoded.splitlines(), delimiter=';', quotechar='"')
+    decoded = contents.decode("utf-8")  # Decode the bytes to a string
+    reader = csv.DictReader(decoded.splitlines(), delimiter=";", quotechar='"')
 
     tickets = service.ticket.upload_csv(db, reader)
-    return {"tickets": tickets}
+    return utils.ticket.assemble_ticket_dtos(tickets)
+
+
+@router.post("/teamflame")
+async def load_from_teamflame(
+    db: Session = Depends(get_db),
+    user: models.User = Depends(current_user),
+):
+    tickets = service.ticket.get_from_teamflame(db, user)
+    
+    return utils.ticket.assemble_ticket_dtos(tickets)
