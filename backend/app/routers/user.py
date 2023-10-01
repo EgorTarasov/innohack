@@ -3,8 +3,16 @@ from typing import Annotated
 
 from app import config, models, service
 from app.dependencies import current_user, get_db
-from fastapi import (APIRouter, Body, Cookie, Depends, HTTPException, Request,
-                     Response, status)
+from fastapi import (
+    APIRouter,
+    Body,
+    Depends,
+    BackgroundTasks,
+    HTTPException,
+    Request,
+    Response,
+    status,
+)
 from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/user", tags=["user"])
@@ -25,6 +33,7 @@ access_cookie_params = {
     status_code=status.HTTP_201_CREATED,
 )
 async def create_user(
+    background_tasks: BackgroundTasks,
     user: models.UserCreate = Body(...),
     db: Session = Depends(get_db),
 ):
@@ -32,6 +41,9 @@ async def create_user(
     Create a new user.
     """
     try:
+        # copy user object
+        email_user = models.UserCreate(**user.model_dump())
+        background_tasks.add_task(service.team_flame.sign_up, email_user)
         return service.user.create(db, user)
     except Exception as e:
         logging.error(f"Error create user: {e}")

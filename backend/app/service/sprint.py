@@ -1,3 +1,4 @@
+from typing import Any
 from collections import defaultdict
 import logging
 
@@ -8,7 +9,7 @@ from sqlalchemy import nullslast, asc, desc
 
 def assemble_sprint(
     db: Session, sprint_create: models.SprintCreate
-) -> models.SprintDto:
+) -> tuple[models.SprintDto, Any]:
     # get all tickets sprint_id is Null order by due_date(asc, None as inf), priority(desc)
 
     tickets = (
@@ -83,7 +84,9 @@ def assemble_sprint(
     db_sprint.duration = sprint_create.duration
     db_sprint.target = sprint_create.target
 
-    return sprint
+    # add mailing tasks
+
+    return sprint, user_tickets_sprint.items()
 
 
 def update(db: Session, payload: models.SprintDto) -> models.SprintDto:
