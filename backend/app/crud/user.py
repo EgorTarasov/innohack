@@ -37,4 +37,4 @@ def get_all(db: Session) -> list[models.User]:
         .filter(models.User.id.in_(db.query(models.TicketReview.user_id.distinct())))
         .all()
     )
-    return db.query(models.User).filter(models.User.assigned_tickets).all()
+    return users
