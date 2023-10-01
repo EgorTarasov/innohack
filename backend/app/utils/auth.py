@@ -1,5 +1,7 @@
 from datetime import datetime
 from datetime import timedelta
+import string
+import random
 
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
@@ -33,3 +35,13 @@ def create_access_token(
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, config.SECRET_KEY, algorithm=config.ALGORITHM)
     return encoded_jwt
+
+
+def generate_password() -> str:
+
+    password = "".join(
+        random.choices(
+            string.ascii_uppercase + string.ascii_lowercase + string.digits, k=10
+        )
+    )
+    return password

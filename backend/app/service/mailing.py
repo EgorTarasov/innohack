@@ -18,6 +18,7 @@ def init_email_service() -> smtplib.SMTP:
     global TEMPLATES
     server = smtplib.SMTP(config.SERVICE_MAIL_HOST, config.SERVICE_MAIL_PORT)
     TEMPLATES = jinja2.Environment(loader=jinja2.FileSystemLoader("app/templates"))
+    logging.debug(f"loaded templates {TEMPLATES.list_templates()}")
     server.starttls()
     try:
         server.login(config.SERVICE_MAIL_USER, config.SERVICE_MAIL_PASSWORD)
@@ -30,11 +31,15 @@ def init_email_service() -> smtplib.SMTP:
     return server
 
 
-async def send_mailing(
+def send_mailing(
     to: str, subject: str, template_name: str, template_data: dict
 ) -> None:
+    print("send_mailing")
     global SMTP_SERVER
     global TEMPLATES
+    
+    print("SMTP_SERVER", SMTP_SERVER)
+    print("TEMPLATES", TEMPLATES)
     try:
         if not SMTP_SERVER:
             SMTP_SERVER = init_email_service()
@@ -42,7 +47,8 @@ async def send_mailing(
             TEMPLATES = jinja2.Environment(
                 loader=jinja2.FileSystemLoader("app/templates")
             )
-
+        print("SMTP_SERVER", SMTP_SERVER)
+        print("TEMPLATES", TEMPLATES)
         msg = MIMEText(
             TEMPLATES.get_template(f"{template_name}.html").render(**template_data),
             "html",

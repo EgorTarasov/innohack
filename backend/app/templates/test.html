@@ -1,14 +1,27 @@
-<!-- email templte for updated status of ticket-->
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Обновление статуса задачи {{ ticket_name }}</title>
-</head>
-<body>
-    <p>Здравствуйте, {{ user_name }}!</p>
-    <p>Статус задачи {{ ticket_name }} был изменен на {{ ticket_status }}.</p>
-</body>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Уведомление о новом задании</title>
+    </head>
+    <body>
+        <h1>Новое задание: {{ task.title }}</h1>
+        <p>Здравствуйте,</p>
+        <p>
+            Вам назначено новое задание с ID: {{ task.id }} в рамках спринта: {{
+            task.sprint_id }}.
+        </p>
+        <ul>
+            <li>Название задания: {{ task.title }}</li>
+            <li>Описание задания: {{ task.description }}</li>
+            <li>Задание от: {{ task.reporter_id }}</li>
+            <li>Задание для: {{ task.assignee_id }}</li>
+            <li>Срок выполнения: {{ task.due_date.strftime('%d-%m-%Y') }}</li>
+            <li>Приоритет: {{ task.priority }}</li>
+            <li>Роль: {{ task.role_id }}</li>
+            <li>Уровень: {{ task.level_id }}</li>
+        </ul>
+        <p>Пожалуйста, приступите к выполнению задания как можно скорее.</p>
+        <p>С уважением,</p>
+        <p>Ваша команда</p>
+    </body>
 </html>
