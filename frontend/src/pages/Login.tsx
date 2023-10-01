@@ -35,7 +35,7 @@ const Login = () => {
             <Row className='auth'>
                 <Col span={6} xs={{ span: 20 }} lg={{ span: 6 }}>
                     <Alert
-                        message=' Тестовый пользователь для входа. Login: 1, Password: 1'
+                        message=' Тестовый пользователь для входа. Login: vanya@edu.misis.ru, Password: 1'
                         type='info'
                     />
 
