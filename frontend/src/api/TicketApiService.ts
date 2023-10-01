@@ -1,12 +1,12 @@
-import axios from 'axios';
-import { API_URL } from '../config';
-import authHeader from '../utils/authHeader';
-import { CreateSprintBody, SprintI, Ticket, Worker } from './models';
+import axios from "axios";
+import { API_URL } from "../config";
+import authHeader from "../utils/authHeader";
+import { CreateSprintBody, SprintI, Ticket, Worker } from "./models";
 
 const sprint: SprintI = {
     id: 1,
     duration: 1,
-    target: '',
+    target: "",
     is_finished: false,
     users: [],
 };
@@ -132,17 +132,27 @@ class TicketApiService {
         //     },
         // ];
 
-        const response = await axios.get<Ticket[]>(`${API_URL}/ticket/role/${roleId}`, {
-            headers: authHeader(),
-        });
+        const response = await axios.get<Ticket[]>(
+            `${API_URL}/ticket/role/${roleId}`,
+            {
+                headers: authHeader(),
+            },
+        );
 
         return response.data;
     }
 
-    public async changeTicketDuration(ticketId: number, body: { duration: number }) {
-        const response = await axios.post<void>(`${API_URL}/ticket/${ticketId}/review`, body, {
-            headers: authHeader(),
-        });
+    public async changeTicketDuration(
+        ticketId: number,
+        body: { duration: number },
+    ) {
+        const response = await axios.post<void>(
+            `${API_URL}/ticket/${ticketId}/review`,
+            body,
+            {
+                headers: authHeader(),
+            },
+        );
 
         return response.data;
     }
@@ -184,9 +194,13 @@ class TicketApiService {
     }
 
     public async importTickets(): Promise<void> {
-        const response = await axios.get<void>(`${API_URL}/ticket/import`, {
-            headers: authHeader(),
-        });
+        const response = await axios.post<void>(
+            `${API_URL}/ticket/teamflame`,
+            {},
+            {
+                headers: authHeader(),
+            },
+        );
 
         return response.data;
     }

@@ -1,6 +1,6 @@
-import { makeAutoObservable, observable, runInAction } from 'mobx';
-import { CreateSprintBody, SprintI, Ticket } from '../api/models';
-import { TicketApiServiceInstanse } from '../api/TicketApiService';
+import { makeAutoObservable, observable, runInAction } from "mobx";
+import { CreateSprintBody, SprintI, Ticket } from "../api/models";
+import { TicketApiServiceInstanse } from "../api/TicketApiService";
 
 export class RootStore {
     public trigger: boolean = false;
@@ -59,7 +59,11 @@ export class RootStore {
         });
     }
 
-    public addTicketToSprintByUser(sprintUserIndex: number, ticketIndex: number, ticket: Ticket) {
+    public addTicketToSprintByUser(
+        sprintUserIndex: number,
+        ticketIndex: number,
+        ticket: Ticket,
+    ) {
         console.log(sprintUserIndex, ticketIndex);
 
         runInAction(() => {
@@ -90,12 +94,15 @@ export class RootStore {
         return tickets;
     }
 
-    public async changeTicketDuration(ticketId: number, body: { duration: number }): Promise<void> {
+    public async changeTicketDuration(
+        ticketId: number,
+        body: { duration: number },
+    ): Promise<void> {
         const response = await TicketApiServiceInstanse.changeTicketDuration(
             ticketId,
-            body
+            body,
         ).finally(() => {
-            // this.getTickets();
+            this.getTickets();
             // this.getTicketsByUserRole(12);
         });
 
@@ -103,7 +110,9 @@ export class RootStore {
     }
 
     public async createSprint(body: CreateSprintBody): Promise<SprintI> {
-        const response = await TicketApiServiceInstanse.createSprint(body).finally(() => {
+        const response = await TicketApiServiceInstanse.createSprint(
+            body,
+        ).finally(() => {
             this.getTickets();
             this.getTicketsByUserRole(1);
         });
@@ -138,10 +147,12 @@ export class RootStore {
     }
 
     public async importTickets(): Promise<void> {
-        const response = await TicketApiServiceInstanse.importTickets().finally(() => {
-            this.getTickets();
-            this.getTicketsByUserRole(1);
-        });
+        const response = await TicketApiServiceInstanse.importTickets().finally(
+            () => {
+                this.getTickets();
+                this.getTicketsByUserRole(1);
+            },
+        );
 
         return response;
     }
