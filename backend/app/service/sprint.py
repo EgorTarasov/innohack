@@ -27,11 +27,6 @@ def assemble_sprint(
             ]
 
     for ticket in tickets:
-        if ticket.durations:
-            print(
-                min(ticket.durations, key=lambda x: x.duration).duration,
-                min(ticket.durations, key=lambda x: x.duration).user_id,
-            )
         ticket_review_dict[ticket.id].sort(key=lambda x: x[1])
 
     # # assemble tickets by users
