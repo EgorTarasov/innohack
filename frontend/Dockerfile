@@ -14,4 +14,4 @@ RUN npm add serve -g
 
 EXPOSE 3000
 
-CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "dev", "--", "--host"]
