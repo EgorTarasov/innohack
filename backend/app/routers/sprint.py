@@ -29,8 +29,10 @@ async def create_(
     Returns:
         models.SprintDto
     """
-    
-    return service.sprint.assemble_sprint(db, sprint_create)
+
+    response, users = service.sprint.assemble_sprint(db, sprint_create)
+    # print(users)
+    return response
 
 
 @router.put("/", response_model=models.SprintDto)
